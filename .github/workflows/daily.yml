@@ -2,6 +2,12 @@ name: Daily Finance Video
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'requirements.txt'
+      - '.github/workflows/daily.yml'
   schedule:
     # 07:00 Asia/Taipei = 23:00 UTC (previous day)
     - cron: '0 23 * * *'
