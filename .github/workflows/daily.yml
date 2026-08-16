@@ -1,0 +1,48 @@
+name: Daily Finance Video
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 07:00 Asia/Taipei = 23:00 UTC (previous day)
+    - cron: '0 23 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install FFmpeg and fonts
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg fonts-noto-cjk
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          python -m playwright install --with-deps chromium
+
+      - name: Run daily pipeline
+        env:
+          AZURE_SPEECH_KEY: ${{ secrets.AZURE_SPEECH_KEY }}
+          AZURE_SPEECH_REGION: ${{ secrets.AZURE_SPEECH_REGION }}
+          TIMEZONE: Asia/Taipei
+          FINVIZ_URL: https://finviz.com/map?t=sec_ndx
+          OUTPUT_DIR: output
+        run: python -m src.main
+
+      - name: Upload daily package
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-finance-${{ github.run_id }}
+          path: output/
+          retention-days: 14
