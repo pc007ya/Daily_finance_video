@@ -8,6 +8,8 @@ from zoneinfo import ZoneInfo
 
 from .fetch_market import collect_market
 from .fetch_finviz import capture_finviz
+from .build_narration import build_narration
+from .tts_edge import synthesize
 
 
 def main() -> None:
@@ -21,8 +23,14 @@ def main() -> None:
 
     capture_finviz(out / "finviz_nasdaq100.png")
 
+    narration = build_narration(market)
+    (out / "narration_zh-TW.txt").write_text(narration, encoding="utf-8")
+
+    synthesize(narration, out / "voice.mp3", out / "subtitles.srt")
+
     print(f"Prepared daily market package: {out}")
-    print("Next stage: narration/script generation, Azure TTS, subtitle timing, and V9 render.")
+    print("Generated: market.json, finviz_nasdaq100.png, narration_zh-TW.txt, voice.mp3, subtitles.srt")
+    print("Next stage: V9 visual renderer + FFmpeg final MP4.")
 
 
 if __name__ == "__main__":
