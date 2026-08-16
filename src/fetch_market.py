@@ -14,7 +14,7 @@ class Quote:
     week52_high: float | None = None
     week52_position_pct: float | None = None
     distance_from_52w_high_pct: float | None = None
-    history: list[float] = field(default_factory=list)
+    candles: list[dict] = field(default_factory=list)
 
     def to_dict(self):
         return asdict(self)
@@ -45,11 +45,14 @@ def get_quote(symbol: str) -> Quote:
         pos = (close - low) / (high - low) * 100
         dist = (close / high - 1) * 100
 
-    history = []
+    candles = []
     if not hist.empty:
-        history = [float(v) for v in hist["Close"].dropna().tail(45).tolist()]
+        for _, row in hist.tail(32).iterrows():
+            o, h, l, c = (_safe(row.get(k)) for k in ["Open", "High", "Low", "Close"])
+            if None not in (o, h, l, c):
+                candles.append({"open": o, "high": h, "low": l, "close": c})
 
-    return Quote(symbol, close, change, pct, low, high, pos, dist, history)
+    return Quote(symbol, close, change, pct, low, high, pos, dist, candles)
 
 
 def collect_market() -> dict:
@@ -81,8 +84,6 @@ def collect_market() -> dict:
     return {
         "indices": {name: get_quote(sym).to_dict() for name, sym in indices.items()},
         "stocks": {name: get_quote(sym).to_dict() for name, sym in stocks.items()},
-        # These are intentionally data-driven slots. Dedicated fetchers can
-        # populate them later without changing the video renderer.
         "weekly_calendar": [],
         "earnings_calendar": [],
     }
