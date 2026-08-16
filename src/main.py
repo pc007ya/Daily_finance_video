@@ -10,27 +10,32 @@ from .fetch_market import collect_market
 from .fetch_finviz import capture_finviz
 from .build_narration import build_narration
 from .tts_edge import synthesize
+from .render_video import render_daily_video
 
 
 def main() -> None:
     tz = ZoneInfo(os.getenv("TIMEZONE", "Asia/Taipei"))
     now = datetime.now(tz)
-    out = Path(os.getenv("OUTPUT_DIR", "output")) / now.strftime("%Y-%m-%d")
+    date_text = now.strftime("%Y-%m-%d")
+    out = Path(os.getenv("OUTPUT_DIR", "output")) / date_text
     out.mkdir(parents=True, exist_ok=True)
 
     market = collect_market()
     (out / "market.json").write_text(json.dumps(market, ensure_ascii=False, indent=2), encoding="utf-8")
 
-    capture_finviz(out / "finviz_nasdaq100.png")
+    finviz = capture_finviz(out / "finviz_nasdaq100.png")
 
     narration = build_narration(market)
     (out / "narration_zh-TW.txt").write_text(narration, encoding="utf-8")
 
-    synthesize(narration, out / "voice.mp3", out / "subtitles.srt")
+    voice = out / "voice.mp3"
+    subtitles = out / "subtitles.srt"
+    synthesize(narration, voice, subtitles)
 
-    print(f"Prepared daily market package: {out}")
-    print("Generated: market.json, finviz_nasdaq100.png, narration_zh-TW.txt, voice.mp3, subtitles.srt")
-    print("Next stage: V9 visual renderer + FFmpeg final MP4.")
+    final = render_daily_video(market, finviz, voice, subtitles, out, date_text)
+
+    print(f"Prepared daily finance video package: {out}")
+    print(f"Final MP4: {final}")
 
 
 if __name__ == "__main__":
