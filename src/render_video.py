@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import json
-import math
 import subprocess
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
@@ -51,7 +49,7 @@ def _quote_card(d, x, y, w, h, name, q):
 
 def _stock_52w_card(d, x, y, w, h, name, q):
     _quote_card(d, x, y, w, h, name, q)
-    lo, hi, close = q.get("week52_low"), q.get("week52_high"), q.get("close")
+    lo, hi = q.get("week52_low"), q.get("week52_high")
     pos, dist = q.get("week52_position_pct"), q.get("distance_from_52w_high_pct")
     gy = y + 230
     x1, x2 = x+35, x+w-35
@@ -73,18 +71,23 @@ def _audio_duration(path: Path) -> float:
     ]).decode().strip())
 
 
+def _ffmpeg_escape_filter_path(path: Path) -> str:
+    # FFmpeg filter syntax needs ':' and backslashes escaped even when the
+    # process working directory changes. Use an absolute POSIX path.
+    s = path.resolve().as_posix()
+    return s.replace("\\", "\\\\").replace(":", "\\:").replace("'", "\\'")
+
+
 def render_daily_video(market: dict, finviz_png: Path, voice_mp3: Path, subtitles_srt: Path, out_dir: Path, date_text: str) -> Path:
     out_dir.mkdir(parents=True, exist_ok=True)
     scenes = []
 
-    # 1 — opening / market pulse
     im, d = _base("今早市場總覽", date_text)
     d.text((105, 350), "美股收盤 × 跨市場 × AI 半導體", font=_font(62, True), fill="white")
     d.text((105, 475), "價格、點數、漲跌幅與 52W 位階一次看", font=_font(44, True), fill="white")
     d.text((105, 760), "Finviz：NASDAQ-100 1-Day Performance", font=_font(34), fill=MUTED)
     scenes.append(im)
 
-    # 2 — four US indices
     im, d = _base("美股四大指數｜收盤價・點數・漲跌幅", date_text)
     indices = market.get("indices", {})
     keys = ["S&P 500", "NASDAQ", "DOW", "RUSSELL 2000"]
@@ -94,7 +97,6 @@ def render_daily_video(market: dict, finviz_png: Path, voice_mp3: Path, subtitle
         _quote_card(d, x, y, 840, 245, name, indices.get(name, {}))
     scenes.append(im)
 
-    # 3 — actual Finviz screenshot
     im, d = _base("FINVIZ NASDAQ-100｜1 DAY PERFORMANCE", date_text)
     src = Image.open(finviz_png).convert("RGB")
     box = (70, 270, 1850, 945)
@@ -107,7 +109,6 @@ def render_daily_video(market: dict, finviz_png: Path, voice_mp3: Path, subtitle
     d.text((80, 980), "來源：Finviz NASDAQ-100 Heatmap｜方塊面積代表市值", font=_font(25), fill=MUTED)
     scenes.append(im)
 
-    # 4 — cross-market radar
     im, d = _base("跨市場雷達", date_text)
     macro = ["VIX", "DXY", "US10Y", "GOLD", "WTI", "BRENT", "USD/TWD", "SOX"]
     for i, name in enumerate(macro):
@@ -116,7 +117,6 @@ def render_daily_video(market: dict, finviz_png: Path, voice_mp3: Path, subtitle
         _quote_card(d, x, y, 420, 245, name, indices.get(name, {}))
     scenes.append(im)
 
-    # 5 — stocks with 52W position
     im, d = _base("AI／半導體｜收盤＋52週相對位階", date_text)
     stocks = market.get("stocks", {})
     names = ["TSM ADR", "NVIDIA", "AMD", "Apple"]
@@ -127,7 +127,6 @@ def render_daily_video(market: dict, finviz_png: Path, voice_mp3: Path, subtitle
     d.text((960, 1010), "日漲跌看今天強弱；52W 位階看現在站在哪裡。", anchor="mm", font=_font(28), fill=MUTED)
     scenes.append(im)
 
-    # 6 — final playbook
     im, d = _base("今日觀察重點", date_text)
     sox = indices.get("SOX", {})
     vix = indices.get("VIX", {})
@@ -162,16 +161,15 @@ def render_daily_video(market: dict, finviz_png: Path, voice_mp3: Path, subtitle
     ], cwd=out_dir, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
     final = out_dir / f"daily_finance_{date_text}.mp4"
-    # Burn subtitles at the bottom with a safe margin, then mux HsiaoChen audio.
-    sub_name = subtitles_srt.name.replace("'", "\\'")
+    sub_abs = _ffmpeg_escape_filter_path(subtitles_srt)
     vf = (
-        f"subtitles='{sub_name}':force_style='FontName=Noto Sans CJK TC,FontSize=22,"
+        f"subtitles='{sub_abs}':force_style='FontName=Noto Sans CJK TC,FontSize=22,"
         "PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,BorderStyle=1,Outline=2,Shadow=0,"
         "Alignment=2,MarginV=26'"
     )
     subprocess.run([
-        "ffmpeg", "-y", "-i", visual.name, "-i", voice_mp3.name,
+        "ffmpeg", "-y", "-i", str(visual.resolve()), "-i", str(voice_mp3.resolve()),
         "-vf", vf, "-map", "0:v:0", "-map", "1:a:0", "-c:v", "libx264", "-preset", "veryfast", "-crf", "20",
-        "-c:a", "aac", "-b:a", "192k", "-shortest", "-movflags", "+faststart", final.name
-    ], cwd=out_dir, check=True)
+        "-c:a", "aac", "-b:a", "192k", "-shortest", "-movflags", "+faststart", str(final.resolve())
+    ], check=True)
     return final
