@@ -1,7 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, asdict
-from typing import Iterable
+from dataclasses import dataclass, asdict, field
 import yfinance as yf
 
 
@@ -15,6 +14,7 @@ class Quote:
     week52_high: float | None = None
     week52_position_pct: float | None = None
     distance_from_52w_high_pct: float | None = None
+    history: list[float] = field(default_factory=list)
 
     def to_dict(self):
         return asdict(self)
@@ -29,7 +29,7 @@ def _safe(v):
 
 def get_quote(symbol: str) -> Quote:
     ticker = yf.Ticker(symbol)
-    hist = ticker.history(period="5d", auto_adjust=False)
+    hist = ticker.history(period="3mo", auto_adjust=False)
     info = ticker.fast_info
 
     close = _safe(hist["Close"].iloc[-1]) if not hist.empty else None
@@ -45,7 +45,11 @@ def get_quote(symbol: str) -> Quote:
         pos = (close - low) / (high - low) * 100
         dist = (close / high - 1) * 100
 
-    return Quote(symbol, close, change, pct, low, high, pos, dist)
+    history = []
+    if not hist.empty:
+        history = [float(v) for v in hist["Close"].dropna().tail(45).tolist()]
+
+    return Quote(symbol, close, change, pct, low, high, pos, dist, history)
 
 
 def collect_market() -> dict:
@@ -69,9 +73,16 @@ def collect_market() -> dict:
         "AMD": "AMD",
         "Apple": "AAPL",
         "Microsoft": "MSFT",
+        "Amazon": "AMZN",
+        "Meta": "META",
+        "Tesla": "TSLA",
     }
 
     return {
         "indices": {name: get_quote(sym).to_dict() for name, sym in indices.items()},
         "stocks": {name: get_quote(sym).to_dict() for name, sym in stocks.items()},
+        # These are intentionally data-driven slots. Dedicated fetchers can
+        # populate them later without changing the video renderer.
+        "weekly_calendar": [],
+        "earnings_calendar": [],
     }
