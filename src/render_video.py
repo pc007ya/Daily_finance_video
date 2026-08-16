@@ -71,13 +71,6 @@ def _audio_duration(path: Path) -> float:
     ]).decode().strip())
 
 
-def _ffmpeg_escape_filter_path(path: Path) -> str:
-    # FFmpeg filter syntax needs ':' and backslashes escaped even when the
-    # process working directory changes. Use an absolute POSIX path.
-    s = path.resolve().as_posix()
-    return s.replace("\\", "\\\\").replace(":", "\\:").replace("'", "\\'")
-
-
 def render_daily_video(market: dict, finviz_png: Path, voice_mp3: Path, subtitles_srt: Path, out_dir: Path, date_text: str) -> Path:
     out_dir.mkdir(parents=True, exist_ok=True)
     scenes = []
@@ -160,16 +153,21 @@ def render_daily_video(market: dict, finviz_png: Path, voice_mp3: Path, subtitle
         "ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", concat.name, "-c", "copy", visual.name
     ], cwd=out_dir, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
+    if not subtitles_srt.exists() or subtitles_srt.stat().st_size < 16:
+        raise RuntimeError(f"Subtitle file missing or empty: {subtitles_srt}")
+
     final = out_dir / f"daily_finance_{date_text}.mp4"
-    sub_abs = _ffmpeg_escape_filter_path(subtitles_srt)
-    vf = (
-        f"subtitles='{sub_abs}':force_style='FontName=Noto Sans CJK TC,FontSize=22,"
-        "PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,BorderStyle=1,Outline=2,Shadow=0,"
-        "Alignment=2,MarginV=26'"
-    )
+    # Robust CI path: mux the SRT as a default MP4 subtitle track. Players place
+    # default subtitles at the bottom, and this avoids libass filename parsing
+    # failures seen on GitHub-hosted Ubuntu runners.
     subprocess.run([
-        "ffmpeg", "-y", "-i", str(visual.resolve()), "-i", str(voice_mp3.resolve()),
-        "-vf", vf, "-map", "0:v:0", "-map", "1:a:0", "-c:v", "libx264", "-preset", "veryfast", "-crf", "20",
-        "-c:a", "aac", "-b:a", "192k", "-shortest", "-movflags", "+faststart", str(final.resolve())
+        "ffmpeg", "-y",
+        "-i", str(visual.resolve()),
+        "-i", str(voice_mp3.resolve()),
+        "-i", str(subtitles_srt.resolve()),
+        "-map", "0:v:0", "-map", "1:a:0", "-map", "2:s:0",
+        "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-c:s", "mov_text",
+        "-metadata:s:s:0", "language=zho", "-disposition:s:0", "default",
+        "-shortest", "-movflags", "+faststart", str(final.resolve())
     ], check=True)
     return final
