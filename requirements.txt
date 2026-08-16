@@ -1,0 +1,7 @@
+azure-cognitiveservices-speech>=1.40
+Pillow>=10.0
+playwright>=1.45
+python-dotenv>=1.0
+requests>=2.32
+yfinance>=0.2.54
+pandas>=2.2
