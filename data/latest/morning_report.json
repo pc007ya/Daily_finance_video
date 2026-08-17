@@ -1,0 +1,424 @@
+{
+  "schema_version": "2.0",
+  "report_date": "2026-08-18",
+  "market_trade_date": "2026-08-17",
+  "generated_at": "2026-08-18T06:00:00+08:00",
+  "source_mode": "CHATGPT_CANONICAL_WITH_GITHUB_VALIDATION",
+  "source_policy": {
+    "canonical_priority": true,
+    "fallback_rule": "GitHub/yfinance may fill null fields only when the fallback observation belongs to the same market_trade_date; it must not silently overwrite a canonical value from a different trade date.",
+    "primary_sources": [
+      "Reuters market close 2026-08-17",
+      "AP US index close 2026-08-17",
+      "Federal Reserve August 2026 calendar",
+      "BLS August 2026 release calendar",
+      "BEA 2026 release schedule",
+      "NVIDIA Investor Relations",
+      "TAIFEX official market-data pages"
+    ]
+  },
+  "indices": {
+    "S&P 500": {
+      "symbol": "^GSPC",
+      "trade_date": "2026-08-17",
+      "close": 7745.06,
+      "change": -40.70,
+      "change_pct": -0.52,
+      "week52_low": null,
+      "week52_high": null,
+      "week52_position_pct": null,
+      "distance_from_52w_high_pct": null,
+      "source": "Reuters/AP"
+    },
+    "NASDAQ": {
+      "symbol": "^IXIC",
+      "trade_date": "2026-08-17",
+      "close": 26644.91,
+      "change": -84.25,
+      "change_pct": -0.31,
+      "week52_low": null,
+      "week52_high": null,
+      "week52_position_pct": null,
+      "distance_from_52w_high_pct": null,
+      "source": "Reuters/AP"
+    },
+    "DOW": {
+      "symbol": "^DJI",
+      "trade_date": "2026-08-17",
+      "close": 53459.78,
+      "change": -272.63,
+      "change_pct": -0.51,
+      "week52_low": null,
+      "week52_high": null,
+      "week52_position_pct": null,
+      "distance_from_52w_high_pct": null,
+      "source": "Reuters/AP"
+    },
+    "RUSSELL 2000": {
+      "symbol": "^RUT",
+      "trade_date": "2026-08-17",
+      "close": 3057.54,
+      "change": -10.88,
+      "change_pct": -0.36,
+      "week52_low": null,
+      "week52_high": null,
+      "week52_position_pct": null,
+      "distance_from_52w_high_pct": null,
+      "source": "AP"
+    },
+    "VIX": {
+      "symbol": "^VIX",
+      "trade_date": "2026-08-17",
+      "close": null,
+      "change": null,
+      "change_pct": null,
+      "week52_low": null,
+      "week52_high": null,
+      "week52_position_pct": null,
+      "distance_from_52w_high_pct": null,
+      "source": "same-date GitHub validation required"
+    },
+    "SOX": {
+      "symbol": "^SOX",
+      "trade_date": "2026-08-17",
+      "close": null,
+      "change": null,
+      "change_pct": 1.60,
+      "week52_low": null,
+      "week52_high": null,
+      "week52_position_pct": null,
+      "distance_from_52w_high_pct": null,
+      "source": "Reuters; close/52W same-date validation required"
+    },
+    "DXY": {
+      "symbol": "DX-Y.NYB",
+      "trade_date": "2026-08-17",
+      "close": 99.60,
+      "change": null,
+      "change_pct": -0.06,
+      "week52_low": null,
+      "week52_high": null,
+      "week52_position_pct": null,
+      "distance_from_52w_high_pct": null,
+      "source": "Reuters"
+    },
+    "US10Y": {
+      "symbol": "^TNX",
+      "trade_date": "2026-08-17",
+      "close": 4.724,
+      "change": 0.0279,
+      "change_pct": null,
+      "change_bps": 2.79,
+      "week52_low": null,
+      "week52_high": null,
+      "week52_position_pct": null,
+      "distance_from_52w_high_pct": null,
+      "source": "Reuters"
+    },
+    "GOLD": {
+      "symbol": "GC=F",
+      "trade_date": "2026-08-17",
+      "close": 4420.41,
+      "change": null,
+      "change_pct": 1.02,
+      "price_type": "spot",
+      "week52_low": null,
+      "week52_high": null,
+      "week52_position_pct": null,
+      "distance_from_52w_high_pct": null,
+      "source": "Reuters"
+    },
+    "WTI": {
+      "symbol": "CL=F",
+      "trade_date": "2026-08-17",
+      "close": 84.66,
+      "change": null,
+      "change_pct": 2.74,
+      "week52_low": null,
+      "week52_high": null,
+      "week52_position_pct": null,
+      "distance_from_52w_high_pct": null,
+      "source": "Reuters"
+    },
+    "BRENT": {
+      "symbol": "BZ=F",
+      "trade_date": "2026-08-17",
+      "close": 90.81,
+      "change": null,
+      "change_pct": 2.59,
+      "week52_low": null,
+      "week52_high": null,
+      "week52_position_pct": null,
+      "distance_from_52w_high_pct": null,
+      "source": "Reuters"
+    },
+    "USD/TWD": {
+      "symbol": "TWD=X",
+      "trade_date": "2026-08-17",
+      "close": null,
+      "change": null,
+      "change_pct": null,
+      "week52_low": null,
+      "week52_high": null,
+      "week52_position_pct": null,
+      "distance_from_52w_high_pct": null,
+      "source": "same-date GitHub validation required"
+    }
+  },
+  "stocks": {
+    "TSM ADR": {
+      "symbol": "TSM",
+      "trade_date": "2026-08-17",
+      "close": null,
+      "change": null,
+      "change_pct": null,
+      "week52_low": null,
+      "week52_high": null,
+      "week52_position_pct": null,
+      "distance_from_52w_high_pct": null,
+      "candles": [],
+      "source": "same-date GitHub validation required"
+    },
+    "NVIDIA": {
+      "symbol": "NVDA",
+      "trade_date": "2026-08-17",
+      "close": null,
+      "change": null,
+      "change_pct": null,
+      "week52_low": null,
+      "week52_high": null,
+      "week52_position_pct": null,
+      "distance_from_52w_high_pct": null,
+      "candles": [],
+      "source": "same-date GitHub validation required"
+    },
+    "AMD": {
+      "symbol": "AMD",
+      "trade_date": "2026-08-17",
+      "close": null,
+      "change": null,
+      "change_pct": null,
+      "week52_low": null,
+      "week52_high": null,
+      "week52_position_pct": null,
+      "distance_from_52w_high_pct": null,
+      "candles": [],
+      "source": "same-date GitHub validation required"
+    },
+    "Apple": {
+      "symbol": "AAPL",
+      "trade_date": "2026-08-17",
+      "close": null,
+      "change": null,
+      "change_pct": null,
+      "week52_low": null,
+      "week52_high": null,
+      "week52_position_pct": null,
+      "distance_from_52w_high_pct": null,
+      "candles": [],
+      "source": "same-date GitHub validation required"
+    },
+    "Microsoft": {
+      "symbol": "MSFT",
+      "trade_date": "2026-08-17",
+      "close": null,
+      "change": null,
+      "change_pct": null,
+      "week52_low": null,
+      "week52_high": null,
+      "week52_position_pct": null,
+      "distance_from_52w_high_pct": null,
+      "candles": [],
+      "context": "Reuters reported Microsoft fell more than 3% on Aug. 17.",
+      "source": "Reuters; exact quote same-date validation required"
+    }
+  },
+  "taiwan_futures": {
+    "contract": "TX",
+    "session_trade_date": "2026-08-18",
+    "night_close": null,
+    "change_points": null,
+    "change_pct": null,
+    "night_high": null,
+    "night_low": null,
+    "volume": null,
+    "total_oi": null,
+    "oi_change": null,
+    "foreign_long_oi": null,
+    "foreign_short_oi": null,
+    "foreign_net_oi": null,
+    "foreign_net_change": null,
+    "source": "TAIFEX official same-date validation required",
+    "note": "TAIFEX attributes the 15:00-05:00 after-hours session to the following trading date; do not mix 2026-08-17 day-session OI with 2026-08-18 attributed night-session data."
+  },
+  "finviz": {
+    "url": "https://finviz.com/map?t=sec_ndx",
+    "expected_trade_date": "2026-08-17",
+    "path": null,
+    "capture_required_at_github": true
+  },
+  "breaking_news": [
+    {
+      "importance": "HIGH",
+      "published_date": "2026-08-17",
+      "headline": "Oil jumps more than 2% as U.S.-Iran diplomacy stalls; equities and long bonds weaken",
+      "summary": "WTI rose to about $84.66 and Brent to $90.81 as supply-risk concerns intensified. Higher energy prices revived inflation concerns while long-dated Treasury yields climbed.",
+      "market_impact": "Energy outperformed while most S&P 500 sectors fell; higher oil and long yields are a valuation headwind for long-duration growth stocks.",
+      "taiwan_impact": "Watch high-valuation AI/tech names, transport costs and petrochemical/energy-linked names; the SOX divergence suggests semiconductor momentum remained firmer than broad software.",
+      "source": "Reuters"
+    },
+    {
+      "importance": "HIGH",
+      "published_date": "2026-08-17",
+      "headline": "Weak U.S. retail sales and softer inflation reduce near-term Fed hike expectations",
+      "summary": "Markets scaled back expectations for a near-term Fed move after weak retail sales and softer July CPI/PPI readings, while the dollar weakened.",
+      "market_impact": "Short-rate expectations eased, but fiscal/debt supply concerns kept long Treasury yields elevated.",
+      "taiwan_impact": "A softer dollar can help Asian FX risk appetite, but the benefit is partly offset by rising long yields and oil.",
+      "source": "Reuters"
+    }
+  ],
+  "ai_semiconductor_news": [
+    {
+      "importance": "HIGH",
+      "published_date": "2026-08-17",
+      "company": "Semiconductor sector",
+      "headline": "SOX rises about 1.6% even as broad U.S. indexes decline",
+      "summary": "Micron gained about 4% and Applied Materials about 5.5%, while software weakened; the session showed a clear chip-versus-software divergence.",
+      "market_impact": "AI/semiconductor capital-equipment and memory demand remained relatively resilient despite macro pressure.",
+      "taiwan_impact": "Positive relative read-through for TSMC, advanced packaging, memory, equipment and AI-server supply chains, subject to TSM ADR and Taiwan-futures confirmation.",
+      "source": "Reuters"
+    },
+    {
+      "importance": "MEDIUM",
+      "published_date": "2026-08-17",
+      "company": "Alphabet / hyperscalers",
+      "headline": "Alphabet prepares inaugural Australian-dollar bond sale as hyperscalers broaden AI-capex funding",
+      "summary": "Reuters reported Alphabet was preparing an Australian-dollar bond deal, another sign large cloud firms are diversifying funding for heavy computing capex.",
+      "market_impact": "Supports the view that AI infrastructure spending remains structurally large, while raising attention to leverage and free-cash-flow discipline.",
+      "taiwan_impact": "Longer-run demand support for foundry, AI accelerators, networking, server ODM, PCB and power/cooling supply chains.",
+      "source": "Reuters"
+    },
+    {
+      "importance": "MEDIUM",
+      "published_date": "2026-08-17",
+      "company": "NVIDIA",
+      "headline": "NVIDIA Q2 FY27 results scheduled for Aug. 26",
+      "summary": "NVIDIA Investor Relations confirms fiscal Q2 FY27 results on Aug. 26, 2026 at about 1:20 p.m. PT, followed by a 2 p.m. PT call.",
+      "market_impact": "The report is the next major validation point for AI accelerator demand and data-center capex.",
+      "taiwan_impact": "Critical for TSMC, CoWoS/advanced packaging, AI-server ODM, networking, PCB, cooling and power names.",
+      "source": "NVIDIA Investor Relations"
+    }
+  ],
+  "weekly_calendar": [
+    {
+      "date": "2026-08-18",
+      "time_et": "08:30",
+      "time_tw": "20:30",
+      "event": "U.S. Import and Export Price Indexes - July 2026",
+      "importance": "MEDIUM",
+      "previous": null,
+      "consensus": null,
+      "actual": null,
+      "source": "BLS"
+    },
+    {
+      "date": "2026-08-18",
+      "time_et": "09:15",
+      "time_tw": "21:15",
+      "event": "U.S. Industrial Production and Capacity Utilization",
+      "importance": "MEDIUM",
+      "previous": null,
+      "consensus": null,
+      "actual": null,
+      "source": "Federal Reserve"
+    },
+    {
+      "date": "2026-08-19",
+      "time_et": "14:00",
+      "time_tw": "2026-08-20 02:00",
+      "event": "FOMC Minutes - July 28-29 meeting",
+      "importance": "HIGH",
+      "previous": null,
+      "consensus": null,
+      "actual": null,
+      "source": "Federal Reserve"
+    },
+    {
+      "date": "2026-08-26",
+      "time_et": "08:30",
+      "time_tw": "20:30",
+      "event": "U.S. GDP Second Estimate Q2 2026 + Personal Income and Outlays July 2026",
+      "importance": "HIGH",
+      "previous": null,
+      "consensus": null,
+      "actual": null,
+      "source": "BEA"
+    }
+  ],
+  "earnings_calendar": [
+    {"date": "2026-08-18", "company": "Home Depot", "ticker": "HD", "timing": "before market", "importance": "HIGH", "eps_estimate": null, "revenue_estimate": null, "taiwan_relevance": "consumer/macro read-through"},
+    {"date": "2026-08-19", "company": "Lowe's", "ticker": "LOW", "timing": "before market", "importance": "MEDIUM", "eps_estimate": null, "revenue_estimate": null, "taiwan_relevance": "consumer/macro read-through"},
+    {"date": "2026-08-19", "company": "Target", "ticker": "TGT", "timing": "before market", "importance": "HIGH", "eps_estimate": null, "revenue_estimate": null, "taiwan_relevance": "consumer/macro read-through"},
+    {"date": "2026-08-19", "company": "TJX Companies", "ticker": "TJX", "timing": "before market", "importance": "MEDIUM", "eps_estimate": null, "revenue_estimate": null, "taiwan_relevance": "consumer/macro read-through"},
+    {"date": "2026-08-20", "company": "Walmart", "ticker": "WMT", "timing": "before market", "importance": "HIGH", "eps_estimate": null, "revenue_estimate": null, "taiwan_relevance": "consumer/macro read-through"},
+    {"date": "2026-08-20", "company": "Deere", "ticker": "DE", "timing": "before market", "importance": "MEDIUM", "eps_estimate": null, "revenue_estimate": null, "taiwan_relevance": "industrial demand"},
+    {"date": "2026-08-26", "company": "NVIDIA", "ticker": "NVDA", "timing": "after market", "importance": "HIGH", "eps_estimate": null, "revenue_estimate": null, "taiwan_relevance": "TSMC/CoWoS/AI server/networking/PCB/cooling/power"}
+  ],
+  "market_takeaways": [
+    "美股四大指數 8/17 全面收低，但 SOX 逆勢約 +1.6%，呈現晶片強、軟體弱的分化。",
+    "WTI 約 +2.74%、Brent 約 +2.59%，美伊談判僵局使能源供給風險與通膨溢價重新升高。",
+    "美國10年期殖利率升至約 4.724%，即使短端升息預期降溫，長債仍受財政與供給壓力影響。",
+    "美元指數約 99.60、日跌約 0.06%；美元轉弱對亞洲風險資產略偏正面，但高油價與長債殖利率形成抵銷。",
+    "本週先看 Home Depot/Target/Walmart 零售財報與 8/19 FOMC Minutes；8/26 NVIDIA 財報是下一個 AI 主線關鍵驗證點。"
+  ],
+  "risk_tone": "cautious_mixed",
+  "taiwan_market_impact": [
+    "半導體相對強勢：SOX 逆勢上漲，台股盤前優先觀察台積電、先進製程、CoWoS、AI server、記憶體與設備鏈。",
+    "風險抵銷：油價與美債長端殖利率同步走高，對高估值科技股不利，盤前需等待 TSM ADR 與台指期夜盤同向確認。",
+    "美元轉弱通常有利亞洲資金情緒，但須同步檢查 USD/TWD 與外資期貨部位，不能只用 DXY 判斷外資方向。"
+  ],
+  "video_storyboard": [
+    {"scene": 1, "start_sec": 0, "end_sec": 7, "title": "今日三大重點", "points": ["美股回落、SOX逆勢", "油價與長債殖利率上升", "零售財報/FOMC Minutes成焦點"]},
+    {"scene": 2, "start_sec": 7, "end_sec": 28, "title": "美股四大指數", "points": ["S&P 500 7745.06 -0.52%", "NASDAQ 26644.91 -0.31%", "DOW 53459.78 -0.51%", "Russell 2000 3057.54 -0.36%"]},
+    {"scene": 3, "start_sec": 28, "end_sec": 45, "title": "市場雷達", "points": ["DXY 99.60 -0.06%", "US10Y 4.724% +2.79bp", "Gold 4420.41 +1.02%", "WTI 84.66 +2.74%", "VIX/USD-TWD待同日驗證補值"]},
+    {"scene": 4, "start_sec": 45, "end_sec": 58, "title": "Finviz NASDAQ-100 Heatmap", "points": ["06:30重新抓取8/17最新熱力圖", "不得使用舊截圖"]},
+    {"scene": 5, "start_sec": 58, "end_sec": 78, "title": "AI / Semiconductor", "points": ["SOX 約 +1.6%", "Micron約+4%、Applied Materials約+5.5%", "TSM/NVDA/AMD精確行情由同交易日GitHub驗證補齊"]},
+    {"scene": 6, "start_sec": 78, "end_sec": 97, "title": "重大新聞", "points": ["美伊談判僵局推升油價", "弱零售銷售降低Fed近端升息預期", "AI capex融資與回報率持續成市場焦點"]},
+    {"scene": 7, "start_sec": 97, "end_sec": 108, "title": "台指期夜盤", "points": ["只使用TAIFEX 2026-08-18歸屬交易日資料", "夜盤收盤/OI待官方同日補值"]},
+    {"scene": 8, "start_sec": 108, "end_sec": 120, "title": "本週焦點", "points": ["8/18進出口價格、工業生產", "8/19 FOMC Minutes", "HD/TGT/WMT零售財報", "8/26 NVIDIA財報"]}
+  ],
+  "narration_points": [
+    "8月17日美股四大指數全面收低，但半導體逆勢走強。",
+    "S&P 500收7745.06點，下跌40.70點、0.52%；Nasdaq收26644.91點，下跌84.25點、0.31%。",
+    "Dow收53459.78點，下跌272.63點、0.51%；Russell 2000收3057.54點，下跌10.88點、約0.36%。",
+    "市場壓力來自油價與長債殖利率同步上升：WTI約84.66美元、上漲2.74%，美國10年期殖利率約4.724%。",
+    "美元指數約99.60、略為走弱；黃金升至約4420美元。",
+    "SOX逆勢上漲約1.6%，Micron與Applied Materials表現強勢，顯示晶片股相對軟體股更有韌性。",
+    "台股盤前優先觀察台積電、CoWoS、AI伺服器、記憶體、設備與散熱電源鏈，但高油價與高長債殖利率仍是估值壓力。",
+    "本週焦點是Home Depot、Target與Walmart零售財報，以及週三FOMC會議紀要；NVIDIA則將在8月26日公布財報。"
+  ],
+  "validation_requirements": {
+    "must_fill_same_trade_date": [
+      "VIX exact close/change/change_pct/52W",
+      "SOX exact close/change/52W",
+      "USD/TWD exact close/change/change_pct/52W",
+      "TSM exact close/change/change_pct/52W/candles",
+      "NVDA exact close/change/change_pct/52W/candles",
+      "AMD exact close/change/change_pct/52W/candles",
+      "AAPL exact close/change/change_pct/52W/candles",
+      "MSFT exact close/change/change_pct/52W/candles",
+      "all index 52W fields",
+      "TAIFEX 2026-08-18 attributed night-session close/high/low/volume/OI"
+    ],
+    "do_not_override": [
+      "S&P 500 2026-08-17 close/change/change_pct",
+      "NASDAQ 2026-08-17 close/change/change_pct",
+      "DOW 2026-08-17 close/change/change_pct",
+      "RUSSELL 2000 2026-08-17 close/change/change_pct",
+      "DXY 99.60 / -0.06% unless authoritative same-date correction is documented",
+      "US10Y 4.724% / +2.79bp unless authoritative same-date correction is documented",
+      "WTI 84.66 / +2.74% unless settlement-vs-last distinction is explicitly recorded",
+      "Gold 4420.41 / +1.02% unless spot-vs-futures distinction is explicitly recorded"
+    ]
+  }
+}
