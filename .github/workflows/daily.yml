@@ -9,8 +9,8 @@ on:
       - 'requirements.txt'
       - '.github/workflows/daily.yml'
   schedule:
-    # 07:00 Asia/Taipei = 23:00 UTC (previous day)
-    - cron: '0 23 * * *'
+    # 06:30 Asia/Taipei = 22:30 UTC (previous day)
+    - cron: '30 22 * * *'
 
 jobs:
   build:
