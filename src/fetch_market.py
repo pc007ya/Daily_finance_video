@@ -10,6 +10,7 @@ class Quote:
     close: float | None
     change: float | None
     change_pct: float | None
+    trade_date: str | None = None
     week52_low: float | None = None
     week52_high: float | None = None
     week52_position_pct: float | None = None
@@ -36,6 +37,7 @@ def get_quote(symbol: str) -> Quote:
     prev = _safe(hist["Close"].iloc[-2]) if len(hist) >= 2 else None
     change = close - prev if close is not None and prev is not None else None
     pct = change / prev * 100 if change is not None and prev else None
+    trade_date = hist.index[-1].date().isoformat() if not hist.empty else None
 
     low = _safe(getattr(info, "year_low", None))
     high = _safe(getattr(info, "year_high", None))
@@ -47,12 +49,18 @@ def get_quote(symbol: str) -> Quote:
 
     candles = []
     if not hist.empty:
-        for _, row in hist.tail(32).iterrows():
+        for ts, row in hist.tail(32).iterrows():
             o, h, l, c = (_safe(row.get(k)) for k in ["Open", "High", "Low", "Close"])
             if None not in (o, h, l, c):
-                candles.append({"open": o, "high": h, "low": l, "close": c})
+                candles.append({
+                    "date": ts.date().isoformat(),
+                    "open": o,
+                    "high": h,
+                    "low": l,
+                    "close": c,
+                })
 
-    return Quote(symbol, close, change, pct, low, high, pos, dist, candles)
+    return Quote(symbol, close, change, pct, trade_date, low, high, pos, dist, candles)
 
 
 def collect_market() -> dict:
