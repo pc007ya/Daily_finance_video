@@ -1,0 +1,9 @@
+{
+  "schema_version": "2.0",
+  "report_date": "2026-08-18",
+  "market_trade_date": "2026-08-17",
+  "generated_at": "2026-08-18T06:00:00+08:00",
+  "source_mode": "CHATGPT_CANONICAL_WITH_GITHUB_VALIDATION",
+  "canonical_path": "data/latest/morning_report.json",
+  "note": "Archive pointer copy. The full canonical payload for this report date is stored in data/latest/morning_report.json at commit 1e49df47c26868500735cff16d68827c436e65c3."
+}
