@@ -1,78 +1,130 @@
 from __future__ import annotations
 
+"""旁白改為「分段」輸出：每一句都帶 scene id。
+
+與舊版的差異
+- 不再自動在每筆報價後加掛「距離五十二週高點約 X%」（實測 15 句 / 57.5 秒 / 全片 25%）。
+  52W 只留給 SOX 與 TSM ADR 兩個關鍵標的。
+- 讀 canonical 的 video_storyboard / narration_points / breaking_news / major_earnings /
+  weekly_calendar / earnings_calendar / taiwan_futures，不再自己編重點。
+- 沒有資料的段落不產生句子 -> 該分鏡整段不存在，畫面不會空轉。
+- US10Y 用 bps 句型，不套「收盤價 + 距 52W 高」。
+"""
+
+SCENE_TITLES = {
+    1: "今日三大重點",
+    2: "美股四大指數",
+    3: "市場雷達",
+    4: "Finviz NASDAQ-100 熱力圖",
+    5: "AI / 半導體",
+    6: "今日重大新聞",
+    7: "台指期夜盤 / OI",
+    8: "今日與本週焦點",
+}
+
 
 def _fmt(v, digits=2):
-    if v is None:
-        return "資料待確認"
-    return f"{v:,.{digits}f}"
+    return None if v is None else f"{v:,.{digits}f}"
 
 
-def _quote_sentence(name: str, q: dict, unit: str = "點") -> str:
-    close = q.get("close")
-    change = q.get("change")
-    pct = q.get("change_pct")
-    if close is None or change is None or pct is None:
-        return f"{name}資料待確認。"
-    direction = "上漲" if change >= 0 else "下跌"
-    s = f"{name}收在{_fmt(close)}{unit}，{direction}{_fmt(abs(change))}{unit}，幅度{_fmt(abs(pct))}%。"
+def _quote(name: str, q: dict, unit: str = "點", with_52w: bool = False) -> str | None:
+    close, chg, pct = q.get("close"), q.get("change"), q.get("change_pct")
+    if close is None or chg is None or pct is None:
+        return None
+    direction = "上漲" if chg >= 0 else "下跌"
+    s = f"{name}收在{_fmt(close)}{unit}，{direction}{_fmt(abs(chg))}{unit}，幅度{_fmt(abs(pct))}%。"
     dist = q.get("distance_from_52w_high_pct")
-    if dist is not None:
+    if with_52w and dist is not None:
         s += f"距離五十二週高點約{_fmt(abs(dist))}%。"
     return s
 
 
-def build_narration(market: dict) -> str:
-    idx = market.get("indices", {})
-    stocks = market.get("stocks", {})
+def _yield_sentence(q: dict) -> str | None:
+    close = q.get("close")
+    if close is None:
+        return None
+    bps = q.get("change_bps")
+    if bps is None and q.get("change") is not None:
+        bps = q["change"] * 100
+    tail = ""
+    if bps is not None:
+        tail = f"，單日{'上升' if bps >= 0 else '下降'}{abs(bps):.0f}個基點"
+    return f"美國十年期公債殖利率約在{_fmt(close)}%{tail}。"
 
-    parts = ["兩分鐘掌握最新國際財經與台股盤前重點。先看昨夜美股收盤。"]
 
-    # Scene 2: US index overview. Keep this block together so the spoken order
-    # follows the on-screen table.
+def build_segments(report: dict) -> list[dict]:
+    idx = report.get("indices", {})
+    stocks = report.get("stocks", {})
+    seg: list[dict] = []
+
+    def add(scene: int, text: str | None):
+        if text:
+            seg.append({"scene": scene, "text": text})
+
+    # 1 — 開場 + canonical 當日三大重點
+    add(1, "兩分鐘掌握最新國際財經與台股盤前重點。")
+    board = {s.get("scene"): s for s in report.get("video_storyboard", [])}
+    for point in (board.get(1, {}).get("points") or [])[:3]:
+        add(1, str(point).rstrip("。") + "。")
+
+    # 2 — 四大指數
     for name in ["S&P 500", "NASDAQ", "DOW", "RUSSELL 2000"]:
-        if name in idx:
-            parts.append(_quote_sentence(name, idx[name]))
+        add(2, _quote(name, idx.get(name, {})))
 
-    # Scene 3: cross-market / futures-style radar.
-    if "VIX" in idx:
-        parts.append(_quote_sentence("VIX恐慌指數", idx["VIX"], unit=""))
-    if "DXY" in idx:
-        parts.append(_quote_sentence("美元指數", idx["DXY"], unit=""))
-    if "US10Y" in idx:
-        parts.append(_quote_sentence("美國十年期公債殖利率", idx["US10Y"], unit=""))
-    if "GOLD" in idx:
-        parts.append(_quote_sentence("黃金", idx["GOLD"], unit="美元"))
-    if "WTI" in idx:
-        parts.append(_quote_sentence("西德州原油", idx["WTI"], unit="美元"))
+    # 3 — 雷達
+    add(3, _quote("VIX恐慌指數", idx.get("VIX", {}), unit=""))
+    add(3, _quote("美元指數", idx.get("DXY", {}), unit=""))
+    add(3, _yield_sentence(idx.get("US10Y", {})))
+    add(3, _quote("黃金", idx.get("GOLD", {}), unit="美元"))
+    add(3, _quote("西德州原油", idx.get("WTI", {}), unit="美元"))
+    add(3, _quote("美元兌新台幣", idx.get("USD/TWD", {}), unit=""))
 
-    # Scene 4: Finviz must be narrated while the heatmap is actually on screen.
-    parts.append("接著看Finviz納斯達克一百一日收盤熱力圖。方塊面積代表市值，綠色代表上漲、紅色代表下跌，快速確認資金集中在哪些產業與大型權值股。")
+    # 4 — Finviz（只在這一段講熱力圖）
+    add(4, "接著看Finviz納斯達克一百熱力圖。")
+    add(4, "方塊面積代表市值，綠色上漲、紅色下跌，先看科技權值再看產業擴散。")
 
-    # Scene 5: focused stocks with 52W context and mini price charts.
-    if "SOX" in idx:
-        parts.append(_quote_sentence("費城半導體指數", idx["SOX"]))
-    for name in ["TSM ADR", "NVIDIA", "AMD", "Apple", "Microsoft"]:
-        q = stocks.get(name)
-        if not q or q.get("close") is None:
-            continue
-        close = q["close"]
-        chg = q.get("change") or 0
-        pct = q.get("change_pct") or 0
-        dist = q.get("distance_from_52w_high_pct")
-        direction = "上漲" if chg >= 0 else "下跌"
-        s = f"{name}收在{_fmt(close)}美元，{direction}{_fmt(abs(chg))}美元，幅度{_fmt(abs(pct))}%。"
-        if dist is not None:
-            s += f"距離五十二週高點約{_fmt(abs(dist))}%。"
-        parts.append(s)
+    # 5 — 半導體與焦點個股（52W 只留關鍵標的）
+    add(5, _quote("費城半導體指數", idx.get("SOX", {}), with_52w=True))
+    add(5, _quote("台積電ADR", stocks.get("TSM ADR", {}), unit="美元", with_52w=True))
+    for name, spoken in [("NVIDIA", "NVIDIA"), ("AMD", "AMD"), ("Apple", "蘋果"), ("Microsoft", "微軟")]:
+        add(5, _quote(spoken, stocks.get(name, {}), unit="美元"))
 
-    # Scene 6: weekly calendar / earnings page. Dedicated fetchers will replace
-    # the fallback copy once live calendar data is available.
-    cal = market.get("weekly_calendar") or []
-    earn = market.get("earnings_calendar") or []
-    if cal or earn:
-        parts.append("最後看本週美股重要行事曆與大型企業財報，重點包含通膨、聯準會、就業數據，以及市值前百大企業財報。")
-    else:
-        parts.append("最後保留本週美股重要行事曆與大型企業財報頁，後續自動帶入CPI、PPI、聯準會利率決策、非農就業、失業率，以及市值前百大企業財報。")
+    # 6 — 重大新聞：優先用 canonical 的 narration_points，其次 breaking_news 標題
+    points = report.get("narration_points") or []
+    news_lines = [p for p in points if any(k in p for k in ("風險", "新聞", "通膨", "利率", "油"))][:3]
+    if not news_lines:
+        news_lines = [str(n.get("headline", "")) for n in report.get("breaking_news", [])[:3]]
+    for line in news_lines:
+        add(6, str(line).rstrip("。") + "。")
 
-    parts.append("以上是今天的國際財經晨報，投資有風險，以上資訊僅供市場觀察參考。")
-    return "".join(parts)
+    # 7 — 台指期夜盤：沒抓到就整段不產生
+    tx = report.get("taiwan_futures") or {}
+    if tx.get("night_close") is not None:
+        pts = tx.get("change_points")
+        direction = "上漲" if (pts or 0) >= 0 else "下跌"
+        s = f"台指期夜盤收在{_fmt(tx['night_close'], 0)}點"
+        if pts is not None:
+            s += f"，{direction}{abs(pts):,.0f}點"
+        if tx.get("change_pct") is not None:
+            s += f"，幅度{_fmt(abs(tx['change_pct']))}%"
+        add(7, s + "。")
+        if tx.get("foreign_net_oi") is not None:
+            add(7, f"外資期貨淨未平倉{tx['foreign_net_oi']:,.0f}口，是判斷開盤方向的關鍵。")
+
+    # 8 — 本週行事曆與財報（唸出真正的日期與公司）
+    cal = [c for c in report.get("weekly_calendar", []) if c.get("importance") in ("HIGH", "CRITICAL")][:2]
+    for c in cal:
+        when = c.get("time_tw") or c.get("date") or ""
+        add(8, f"{when}，{c.get('event', '')}。")
+    earn = report.get("earnings_calendar", [])[:3]
+    if earn:
+        names = "、".join(f"{e.get('company', '')}" for e in earn if e.get("company"))
+        add(8, f"財報方面留意{names}。")
+    add(8, "以上是今天的國際財經晨報，投資有風險，資訊僅供市場觀察參考。")
+
+    return seg
+
+
+def build_narration(report: dict) -> str:
+    """保留舊介面：整段文字（除錯／存檔用）。"""
+    return "".join(s["text"] for s in build_segments(report))

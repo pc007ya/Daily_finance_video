@@ -46,6 +46,7 @@ jobs:
           TIMEZONE: Asia/Taipei
           FINVIZ_URL: https://finviz.com/map?t=sec_ndx
           OUTPUT_DIR: output
+          FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
         run: python -m src.main
 
       - name: Upload MP4 to Google Drive

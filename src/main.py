@@ -8,9 +8,11 @@ from zoneinfo import ZoneInfo
 
 from .fetch_market import collect_market
 from .fetch_finviz import capture_finviz
+from .fetch_taifex import fetch_night_session
+from .fetch_finmind import fill_missing
 from .build_report import build_report
-from .build_narration import build_narration
-from .tts_edge import synthesize
+from .build_narration import build_segments
+from .tts_edge import synthesize_segments
 from .render_video import render_daily_video
 
 
@@ -73,9 +75,7 @@ def main() -> None:
     out.mkdir(parents=True, exist_ok=True)
 
     market = collect_market()
-    (out / "market.json").write_text(
-        json.dumps(market, ensure_ascii=False, indent=2), encoding="utf-8"
-    )
+    (out / "market.json").write_text(json.dumps(market, ensure_ascii=False, indent=2), encoding="utf-8")
 
     finviz = capture_finviz(out / "finviz_nasdaq100.png")
 
@@ -99,29 +99,38 @@ def main() -> None:
         report["source_mode"] = "CHATGPT_CANONICAL_PLUS_SAME_DATE_GITHUB_VALIDATION"
     else:
         report = build_report(market, date_text, str(finviz))
+        report["market_trade_date"] = report.get("market_trade_date") or date_text
         report["source_mode"] = "GITHUB_FALLBACK_NO_VALID_CANONICAL"
         validation.append({"status": "NO_VALID_CANONICAL", "report_date": date_text})
 
+    # 台指期夜盤 / OI：歸屬日 = 報告日（TAIFEX 把 15:00-05:00 歸次一交易日）
+    tx_existing = report.get("taiwan_futures") or {}
+    session_date = tx_existing.get("session_trade_date") or date_text
+    fetched_tx = fetch_night_session(session_date, validation)
+    report["taiwan_futures"] = {**tx_existing, **{k: v for k, v in fetched_tx.items() if v is not None}}
+
+    # FinMind：只補仍為 null 的同交易日欄位
+    fill_missing(report, report.get("market_trade_date") or date_text, validation)
+
     report_path = out / "morning_report.json"
-    report_path.write_text(
-        json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8"
+    report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
+    (out / "validation_report.json").write_text(json.dumps(validation, ensure_ascii=False, indent=2), encoding="utf-8")
+
+    # 旁白改為分段輸出：每句帶 scene id
+    segments = build_segments(report)
+    (out / "narration_zh-TW.txt").write_text("".join(s["text"] for s in segments), encoding="utf-8")
+
+    tts = synthesize_segments(segments, out)
+
+    final = render_daily_video(
+        report, finviz, tts["voice"], tts["subtitles"], tts["timeline"], out, date_text
     )
-    (out / "validation_report.json").write_text(
-        json.dumps(validation, ensure_ascii=False, indent=2), encoding="utf-8"
-    )
-
-    narration = build_narration(report)
-    (out / "narration_zh-TW.txt").write_text(narration, encoding="utf-8")
-
-    voice = out / "voice.mp3"
-    subtitles = out / "subtitles.srt"
-    synthesize(narration, voice, subtitles)
-
-    final = render_daily_video(report, finviz, voice, subtitles, out, date_text)
 
     print(f"Canonical morning report: {report_path}")
     print(f"Validation report: {out / 'validation_report.json'}")
-    print(f"Prepared daily finance video package: {out}")
+    print(f"Narration total: {tts['total']:.1f}s across {len(tts['timeline'])} scenes")
+    for row in tts["timeline"]:
+        print(f"  scene {row['scene']}: {row['start']:.1f}s -> {row['end']:.1f}s ({row['duration']:.1f}s)")
     print(f"Final MP4: {final}")
 
 
