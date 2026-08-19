@@ -3,8 +3,8 @@ from __future__ import annotations
 """旁白改為「分段」輸出：每一句都帶 scene id。
 
 與舊版的差異
-- 不再自動在每筆報價後加掛「距離五十二週高點約 X%」（實測 15 句 / 57.5 秒 / 全片 25%）。
-  52W 只留給 SOX 與 TSM ADR 兩個關鍵標的。
+- 旁白完全不唸「距離五十二週高點約 X%」（實測 15 句 / 57.5 秒 / 全片 25%，且圖卡上已經有）。
+  52W 距離只出現在圖卡的「距52W High」欄位。
 - 讀 canonical 的 video_storyboard / narration_points / breaking_news / major_earnings /
   weekly_calendar / earnings_calendar / taiwan_futures，不再自己編重點。
 - 沒有資料的段落不產生句子 -> 該分鏡整段不存在，畫面不會空轉。
@@ -27,16 +27,13 @@ def _fmt(v, digits=2):
     return None if v is None else f"{v:,.{digits}f}"
 
 
-def _quote(name: str, q: dict, unit: str = "點", with_52w: bool = False) -> str | None:
+def _quote(name: str, q: dict, unit: str = "點") -> str | None:
+    """52W 距離只留在圖卡上，旁白不唸（唸出來冗餘且吃秒數）。"""
     close, chg, pct = q.get("close"), q.get("change"), q.get("change_pct")
     if close is None or chg is None or pct is None:
         return None
     direction = "上漲" if chg >= 0 else "下跌"
-    s = f"{name}收在{_fmt(close)}{unit}，{direction}{_fmt(abs(chg))}{unit}，幅度{_fmt(abs(pct))}%。"
-    dist = q.get("distance_from_52w_high_pct")
-    if with_52w and dist is not None:
-        s += f"距離五十二週高點約{_fmt(abs(dist))}%。"
-    return s
+    return f"{name}收在{_fmt(close)}{unit}，{direction}{_fmt(abs(chg))}{unit}，幅度{_fmt(abs(pct))}%。"
 
 
 def _yield_sentence(q: dict) -> str | None:
@@ -84,8 +81,8 @@ def build_segments(report: dict) -> list[dict]:
     add(4, "方塊面積代表市值，綠色上漲、紅色下跌，先看科技權值再看產業擴散。")
 
     # 5 — 半導體與焦點個股（52W 只留關鍵標的）
-    add(5, _quote("費城半導體指數", idx.get("SOX", {}), with_52w=True))
-    add(5, _quote("台積電ADR", stocks.get("TSM ADR", {}), unit="美元", with_52w=True))
+    add(5, _quote("費城半導體指數", idx.get("SOX", {})))
+    add(5, _quote("台積電ADR", stocks.get("TSM ADR", {}), unit="美元"))
     for name, spoken in [("NVIDIA", "NVIDIA"), ("AMD", "AMD"), ("Apple", "蘋果"), ("Microsoft", "微軟")]:
         add(5, _quote(spoken, stocks.get(name, {}), unit="美元"))
 
