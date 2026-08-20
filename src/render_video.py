@@ -16,19 +16,23 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
 W, H = 1920, 1080
-BG = (3, 18, 38)
-PANEL = (6, 31, 60)
-GRID = (25, 74, 112)
-WHITE = (245, 248, 252)
-MUTED = (160, 184, 210)
-YELLOW = (255, 205, 40)
-GREEN = (55, 220, 120)
-RED = (255, 92, 92)
-CYAN = (50, 177, 255)
+
+# 白底橘色盤，與審視面板同一組值。名字照語意取——白底之下 BG/WHITE 那套舊名會反過來害人。
+PAPER = (250, 248, 244)      # 暖白紙面
+CARD = (255, 255, 255)       # 卡片
+RULE = (229, 224, 216)       # 框線／分隔線
+INK = (31, 29, 26)           # 主要文字
+SOFT = (61, 57, 52)          # 次要內文
+MUTED = (122, 115, 108)      # 標籤、註記
+ACCENT = (217, 119, 87)      # Claude 橘：badge 與重點
+HEADER = (244, 240, 232)     # 標題列底
+UP = (47, 125, 79)           # 上漲（白底上讀得清楚的深綠，不用螢光綠）
+DOWN = (180, 68, 47)         # 下跌
+INFO = (91, 116, 140)        # 52W 位階、日期等次要資訊
 
 SUB_STYLE = (
     "FontName=Noto Sans CJK TC,FontSize=21,Bold=1,Alignment=2,MarginV=40,"
-    "PrimaryColour=&H00FFFFFF&,OutlineColour=&H90000000&,BorderStyle=1,Outline=3,Shadow=0"
+    "PrimaryColour=&H001A1D1F&,OutlineColour=&H00F4F8FA&,BorderStyle=3,Outline=7,Shadow=0"
 )
 
 
@@ -52,27 +56,28 @@ def _pct(v):
 
 
 def _sign(v):
-    return MUTED if v is None else (GREEN if v >= 0 else RED)
+    return MUTED if v is None else (UP if v >= 0 else DOWN)
 
 
 def _base(title: str, date_text: str, badge: str):
-    im = Image.new("RGB", (W, H), BG)
+    im = Image.new("RGB", (W, H), PAPER)
     d = ImageDraw.Draw(im)
-    d.rectangle((0, 0, W, 92), fill=(2, 13, 29))
-    d.text((26, 18), badge, font=_font(28, True), fill=YELLOW)
-    d.text((W // 2, 42), title, anchor="mm", font=_font(48, True), fill=WHITE)
+    d.rectangle((0, 0, W, 92), fill=HEADER)
+    d.rectangle((0, 89, W, 92), fill=ACCENT)
+    d.text((26, 18), badge, font=_font(28, True), fill=ACCENT)
+    d.text((W // 2, 42), title, anchor="mm", font=_font(48, True), fill=INK)
     d.text((W - 28, 24), date_text, anchor="ra", font=_font(22), fill=MUTED)
     return im, d
 
 
 def _panel(d, xy):
-    d.rectangle(xy, fill=PANEL, outline=GRID, width=2)
+    d.rectangle(xy, fill=CARD, outline=RULE, width=2)
 
 
 def _quote_card(d, x, y, w, h, name, q):
     _panel(d, (x, y, x + w, y + h))
     d.text((x + 20, y + 16), name, font=_font(24, True), fill=MUTED)
-    d.text((x + 20, y + 58), _fmt(q.get("close")), font=_font(40, True), fill=WHITE)
+    d.text((x + 20, y + 58), _fmt(q.get("close")), font=_font(40, True), fill=INK)
     d.text((x + 20, y + 116), f"{_fmt(q.get('change'))}   {_pct(q.get('change_pct'))}",
            font=_font(25, True), fill=_sign(q.get("change_pct")))
     dist = q.get("distance_from_52w_high_pct")
@@ -94,7 +99,7 @@ def _draw_candles(d, box, candles):
     yy = lambda v: y2 - int((v - lo) / span * (y2 - y1))
     for i, c in enumerate(candles):
         cx = int(x1 + (i + 0.5) * step)
-        col = GREEN if c["close"] >= c["open"] else RED
+        col = UP if c["close"] >= c["open"] else DOWN
         d.line((cx, yy(c["high"]), cx, yy(c["low"])), fill=col, width=2)
         top, bot = yy(max(c["open"], c["close"])), yy(min(c["open"], c["close"]))
         if bot <= top:
@@ -104,7 +109,7 @@ def _draw_candles(d, box, candles):
 
 def _stock_card(d, x, y, w, h, name, q):
     _panel(d, (x, y, x + w, y + h))
-    d.text((x + 18, y + 14), name, font=_font(25, True), fill=WHITE)
+    d.text((x + 18, y + 14), name, font=_font(25, True), fill=INK)
     d.text((x + w - 18, y + 16), _pct(q.get("change_pct")), anchor="ra", font=_font(24, True),
            fill=_sign(q.get("change_pct")))
     d.text((x + 18, y + 52), f"收盤 {_fmt(q.get('close'))}", font=_font(19), fill=MUTED)
@@ -155,9 +160,9 @@ def _scene1(rep, date_text, assets):
     for i, name in enumerate(["S&P 500", "NASDAQ", "DOW", "RUSSELL 2000", "VIX", "DXY", "GOLD", "WTI"]):
         _quote_card(d, 28 + i * 235, 180, 215, 220, name, idx.get(name, {}))
     board = {s.get("scene"): s for s in rep.get("video_storyboard", [])}
-    d.text((40, 472), "今日三大重點", font=_font(34, True), fill=WHITE)
+    d.text((40, 472), "今日三大重點", font=_font(34, True), fill=INK)
     for i, t in enumerate((board.get(1, {}).get("points") or [])[:3]):
-        d.text((58, 548 + i * 70), "• " + str(t), font=_font(29), fill=(210, 232, 250))
+        d.text((58, 548 + i * 70), "• " + str(t), font=_font(29), fill=SOFT)
     return im
 
 
@@ -171,14 +176,14 @@ def _index_table(rep, date_text, names, title):
     for r, name in enumerate(names):
         q = idx.get(name, {})
         y = 245 + r * 72
-        d.line((70, y + 52, 1840, y + 52), fill=(16, 60, 96), width=1)
-        d.text((80, y), name, font=_font(24, True), fill=WHITE)
-        d.text((500, y), _fmt(q.get("close")), font=_font(24), fill=WHITE)
+        d.line((70, y + 52, 1840, y + 52), fill=RULE, width=1)
+        d.text((80, y), name, font=_font(24, True), fill=INK)
+        d.text((500, y), _fmt(q.get("close")), font=_font(24), fill=INK)
         d.text((850, y), _fmt(q.get("change")), font=_font(24, True), fill=_sign(q.get("change")))
         d.text((1120, y), _pct(q.get("change_pct")), font=_font(24, True), fill=_sign(q.get("change_pct")))
         dist, pos = q.get("distance_from_52w_high_pct"), q.get("week52_position_pct")
         d.text((1400, y), "N/A" if dist is None else f"{dist:.2f}%", font=_font(24, True), fill=_sign(dist))
-        d.text((1660, y), "N/A" if pos is None else f"{pos:.1f}%", font=_font(24), fill=CYAN)
+        d.text((1660, y), "N/A" if pos is None else f"{pos:.1f}%", font=_font(24), fill=INFO)
     return im
 
 
@@ -201,12 +206,14 @@ def _scene4(rep, date_text, assets):
     bw, bh = box[2] - box[0], box[3] - box[1]
     ratio = min(bw / src.width, bh / src.height)
     rs = src.resize((int(src.width * ratio), int(src.height * ratio)))
-    im.paste(rs, (box[0] + (bw - rs.width) // 2, box[1] + (bh - rs.height) // 2))
+    ox, oy = box[0] + (bw - rs.width) // 2, box[1] + (bh - rs.height) // 2
+    im.paste(rs, (ox, oy))
+    d.rectangle((ox - 1, oy - 1, ox + rs.width, oy + rs.height), outline=RULE, width=2)
     _panel(d, (1510, 150, 1870, 890))
-    d.text((1690, 185), "熱力圖閱讀", anchor="mm", font=_font(28, True), fill=WHITE)
+    d.text((1690, 185), "熱力圖閱讀", anchor="mm", font=_font(28, True), fill=INK)
     for i, t in enumerate(["綠：上漲", "紅：下跌", "面積：市值", "先看科技權值", "再看產業擴散"]):
         d.text((1540, 270 + i * 90), t, font=_font(25, True),
-               fill=GREEN if i == 0 else RED if i == 1 else MUTED)
+               fill=UP if i == 0 else DOWN if i == 1 else MUTED)
     return im
 
 
@@ -224,11 +231,11 @@ def _scene6(rep, date_text, assets):
     for i, n in enumerate(news):
         y = 165 + i * 250
         _panel(d, (50, y, 1870, y + 220))
-        d.text((75, y + 20), str(n.get("importance", "")), font=_font(21, True), fill=YELLOW)
-        d.text((200, y + 18), str(n.get("headline", ""))[:58], font=_font(28, True), fill=WHITE)
-        d.text((75, y + 76), str(n.get("summary", ""))[:74], font=_font(22), fill=(210, 232, 250))
+        d.text((75, y + 20), str(n.get("importance", "")), font=_font(21, True), fill=ACCENT)
+        d.text((200, y + 18), str(n.get("headline", ""))[:58], font=_font(28, True), fill=INK)
+        d.text((75, y + 76), str(n.get("summary", ""))[:74], font=_font(22), fill=SOFT)
         d.text((75, y + 130), "市場影響：" + str(n.get("market_impact", ""))[:66], font=_font(21), fill=MUTED)
-        d.text((75, y + 174), "台股影響：" + str(n.get("taiwan_impact", ""))[:66], font=_font(21, True), fill=CYAN)
+        d.text((75, y + 174), "台股影響：" + str(n.get("taiwan_impact", ""))[:66], font=_font(21, True), fill=INFO)
     return im
 
 
@@ -249,9 +256,9 @@ def _scene7(rep, date_text, assets):
         x, y = 60 + (i % 4) * 455, 190 + (i // 4) * 330
         _panel(d, (x, y, x + 420, y + 250))
         d.text((x + 22, y + 24), label, font=_font(24, True), fill=MUTED)
-        d.text((x + 22, y + 92), value, font=_font(46, True), fill=WHITE)
+        d.text((x + 22, y + 92), value, font=_font(46, True), fill=INK)
     d.text((60, 900), f"歸屬交易日 {tx.get('session_trade_date', 'N/A')}｜{tx.get('night_session_window', '')}",
-           font=_font(22, True), fill=YELLOW)
+           font=_font(22, True), fill=ACCENT)
     return im
 
 
@@ -259,17 +266,17 @@ def _scene8(rep, date_text, assets):
     im, d = _base("本週重要行事曆與大型企業財報", date_text, "行事曆")
     _panel(d, (45, 150, 1120, 900))
     _panel(d, (1150, 150, 1875, 900))
-    d.text((75, 180), "本週重要總經事件", font=_font(30, True), fill=WHITE)
+    d.text((75, 180), "本週重要總經事件", font=_font(30, True), fill=INK)
     for i, item in enumerate(rep.get("weekly_calendar", [])[:7]):
         y = 245 + i * 88
-        d.text((80, y), str(item.get("time_tw") or item.get("date", "")), font=_font(20, True), fill=CYAN)
-        d.text((80, y + 34), str(item.get("event", ""))[:34], font=_font(23, True), fill=WHITE)
+        d.text((80, y), str(item.get("time_tw") or item.get("date", "")), font=_font(20, True), fill=INFO)
+        d.text((80, y + 34), str(item.get("event", ""))[:34], font=_font(23, True), fill=INK)
         d.text((980, y), str(item.get("importance", "")), anchor="ra", font=_font(19, True), fill=MUTED)
-    d.text((1180, 180), "市值前100大企業財報", font=_font(30, True), fill=WHITE)
+    d.text((1180, 180), "市值前100大企業財報", font=_font(30, True), fill=INK)
     for i, item in enumerate(rep.get("earnings_calendar", [])[:8]):
         y = 245 + i * 76
-        d.text((1185, y), str(item.get("date", "")), font=_font(19), fill=CYAN)
-        d.text((1185, y + 30), str(item.get("company", "")), font=_font(23, True), fill=WHITE)
+        d.text((1185, y), str(item.get("date", "")), font=_font(19), fill=INFO)
+        d.text((1185, y + 30), str(item.get("company", "")), font=_font(23, True), fill=INK)
         d.text((1700, y + 30), str(item.get("ticker", "")), anchor="ra", font=_font(21, True), fill=MUTED)
         d.text((1845, y + 30), str(item.get("timing", ""))[:6], anchor="ra", font=_font(18), fill=MUTED)
     return im
