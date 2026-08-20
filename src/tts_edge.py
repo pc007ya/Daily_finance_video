@@ -20,7 +20,7 @@ from pathlib import Path
 import edge_tts
 
 VOICE = "zh-TW-HsiaoChenNeural"
-RATE = "-2%"
+RATE = "+8%"
 MAX_SUB_CHARS = 14
 
 # 影片長度不寫死（多長由旁白決定），但設一個上限避免失控。

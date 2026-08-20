@@ -5,8 +5,9 @@ from __future__ import annotations
 與舊版的差異
 - 旁白完全不唸「距離五十二週高點約 X%」（實測 15 句 / 57.5 秒 / 全片 25%，且圖卡上已經有）。
   52W 距離只出現在圖卡的「距52W High」欄位。
-- 讀 canonical 的 video_storyboard / narration_points / breaking_news / major_earnings /
-  weekly_calendar / earnings_calendar / taiwan_futures，不再自己編重點。
+- 讀 canonical 的 video_storyboard / narration_points / breaking_news /
+  earnings_calendar / taiwan_futures，不再自己編重點。
+- 分鏡 8 只唸財報公司名；weekly_calendar 的日期與事件只出現在圖卡上。
 - 沒有資料的段落不產生句子 -> 該分鏡整段不存在，畫面不會空轉。
 - US10Y 用 bps 句型，不套「收盤價 + 距 52W 高」。
 """
@@ -108,15 +109,12 @@ def build_segments(report: dict) -> list[dict]:
         if tx.get("foreign_net_oi") is not None:
             add(7, f"外資期貨淨未平倉{tx['foreign_net_oi']:,.0f}口，是判斷開盤方向的關鍵。")
 
-    # 8 — 本週行事曆與財報（唸出真正的日期與公司）
-    cal = [c for c in report.get("weekly_calendar", []) if c.get("importance") in ("HIGH", "CRITICAL")][:2]
-    for c in cal:
-        when = c.get("time_tw") or c.get("date") or ""
-        add(8, f"{when}，{c.get('event', '')}。")
+    # 8 — 本週財報：只唸公司名。行事曆事件與日期留在圖卡上，不進旁白
+    #     （實測那兩句和財報句重複唸同樣的公司，白白吃掉 11 秒）
     earn = report.get("earnings_calendar", [])[:3]
-    if earn:
-        names = "、".join(f"{e.get('company', '')}" for e in earn if e.get("company"))
-        add(8, f"財報方面留意{names}。")
+    names = "、".join(str(e.get("company", "")) for e in earn if e.get("company"))
+    if names:
+        add(8, f"本週財報：{names}。")
     add(8, "以上是今天的國際財經晨報，投資有風險，資訊僅供市場觀察參考。")
 
     return seg
