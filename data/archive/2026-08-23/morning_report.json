@@ -1,0 +1,8 @@
+{
+  "schema_version": "2.0",
+  "report_date": "2026-08-23",
+  "market_trade_date": "2026-08-21",
+  "generated_at": "2026-08-23T06:02:37+08:00",
+  "source_mode": "CHATGPT_CANONICAL_WITH_GITHUB_VALIDATION",
+  "note": "Archived copy of data/latest/morning_report.json for 2026-08-23. U.S. market data remains anchored to Friday 2026-08-21 because 2026-08-23 is Sunday. Canonical values and weekend-news updates are in the latest file at commit bad0c4ee843ada362f20776fb1a47093b6500c80."
+}
