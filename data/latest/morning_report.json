@@ -1,35 +1,36 @@
 {
-  "schema_version": "2.0",
-  "report_date": "2026-08-23",
+  "schema_version": "2.1",
+  "report_date": "2026-08-24",
   "market_trade_date": "2026-08-21",
-  "generated_at": "2026-08-23T06:02:37+08:00",
-  "source_mode": "CHATGPT_CANONICAL_WITH_GITHUB_VALIDATION",
+  "generated_at": "2026-08-24T06:00:00+08:00",
+  "source_mode": "CHATGPT_CANONICAL_WITH_GITHUB_SAME_DATE_VALIDATION",
   "source_policy": {
     "canonical_priority": true,
-    "fallback_rule": "GitHub/yfinance and TAIFEX fetchers may fill null fields only when the observation belongs to the same specified trade date/session date. They must not silently overwrite a non-null canonical value or substitute a different trade date.",
-    "weekend_rule": "2026-08-23 is Sunday. U.S. cash-market observations remain anchored to the latest completed session, Friday 2026-08-21.",
-    "trade_date_rule": "Taiwan futures after-hours beginning Friday 2026-08-21 15:00 and ending Saturday 2026-08-22 05:00 are attributed to next TAIFEX trading date, Monday 2026-08-24."
+    "fallback_rule": "GitHub/yfinance, FinMind and TAIFEX may fill null fields only when the observation belongs to the same specified trade date/session date. Never silently overwrite a non-null canonical value or use a different trade date.",
+    "weekend_rule": "2026-08-24 is Monday before the U.S. cash session. U.S. cash-market observations remain anchored to the latest completed session, Friday 2026-08-21.",
+    "trade_date_rule": "TAIFEX after-hours from Friday 2026-08-21 15:00 through Saturday 2026-08-22 05:00 is attributed to Monday 2026-08-24. Official TAIFEX same-session data is required before directional OI conclusions.",
+    "data_correction": "Corrected prior-canonical same-date single-stock closes using fresh Yahoo/CNA sources: TSM 418.95, NVDA 214.72, AMD 473.25, AAPL 309.35, MSFT 483.24."
   },
   "indices": {
-    "S&P 500": {"symbol":"^GSPC","trade_date":"2026-08-21","close":7674.37,"change":33.21,"change_pct":0.43,"week52_low":null,"week52_high":null,"week52_position_pct":null,"distance_from_52w_high_pct":null,"source":"Reuters","validation_required":["52w"]},
-    "NASDAQ": {"symbol":"^IXIC","trade_date":"2026-08-21","close":26180.46,"change":113.29,"change_pct":0.44,"week52_low":null,"week52_high":null,"week52_position_pct":null,"distance_from_52w_high_pct":null,"source":"Reuters","validation_required":["52w"]},
-    "DOW": {"symbol":"^DJI","trade_date":"2026-08-21","close":53277.01,"change":517.80,"change_pct":0.98,"week52_low":null,"week52_high":null,"week52_position_pct":null,"distance_from_52w_high_pct":null,"source":"Reuters","validation_required":["52w"]},
-    "RUSSELL 2000": {"symbol":"^RUT","trade_date":"2026-08-21","close":3017.87,"change":25.44,"change_pct":0.85,"week52_low":2252.43,"week52_high":3069.71,"week52_position_pct":93.66,"distance_from_52w_high_pct":-1.69,"source":"prior canonical + same-date market crosscheck","validation_required":["same_date_crosscheck"]},
-    "VIX": {"symbol":"^VIX","trade_date":"2026-08-21","close":15.13,"change":-0.88,"change_pct":-5.50,"week52_low":13.38,"week52_high":35.30,"week52_position_pct":8.72,"distance_from_52w_high_pct":-57.14,"source":"Yahoo Finance/CBOE delayed close","validation_required":[]},
-    "SOX": {"symbol":"^SOX","trade_date":"2026-08-21","close":11724.6,"change":-75.4,"change_pct":-0.64,"week52_low":5480.0,"week52_high":14655.3,"week52_position_pct":68.06,"distance_from_52w_high_pct":-20.0,"source":"prior canonical","validation_required":["same_date_crosscheck"]},
-    "DXY": {"symbol":"DX-Y.NYB","trade_date":"2026-08-21","close":98.84,"change":0.04,"change_pct":0.04,"week52_low":95.55,"week52_high":101.80,"week52_position_pct":52.64,"distance_from_52w_high_pct":-2.91,"source":"Yahoo Finance/ICE delayed close","validation_required":[]},
-    "US10Y": {"symbol":"^TNX","trade_date":"2026-08-21","close":4.738,"change":0.042,"change_pct":0.89,"change_bps":4.2,"price_type":"yield_pct","week52_low":null,"week52_high":null,"source":"Yahoo Finance/Reuters","validation_required":["52w"]},
-    "GOLD": {"symbol":"GC=F","trade_date":"2026-08-21","close":4680.60,"change":109.20,"change_pct":2.39,"price_type":"futures_close","week52_low":null,"week52_high":5318.40,"week52_position_pct":null,"distance_from_52w_high_pct":-11.99,"source":"Yahoo Finance","validation_required":["52w_low","contract_alignment"]},
-    "WTI": {"symbol":"CL=F","trade_date":"2026-08-21","close":87.06,"change":0.23,"change_pct":0.26,"week52_low":null,"week52_high":null,"week52_position_pct":null,"distance_from_52w_high_pct":null,"source":"Yahoo Finance front-month","validation_required":["52w","contract_alignment"]},
+    "S&P 500": {"symbol":"^GSPC","trade_date":"2026-08-21","close":7674.37,"change":33.21,"change_pct":0.43,"week52_low":null,"week52_high":null,"week52_position_pct":null,"distance_from_52w_high_pct":null,"source":"AP/Reuters same-date close","validation_required":["52w"]},
+    "NASDAQ": {"symbol":"^IXIC","trade_date":"2026-08-21","close":26180.45,"change":113.29,"change_pct":0.43,"week52_low":null,"week52_high":null,"week52_position_pct":null,"distance_from_52w_high_pct":null,"source":"AP same-date close","validation_required":["52w"]},
+    "DOW": {"symbol":"^DJI","trade_date":"2026-08-21","close":53277.01,"change":517.80,"change_pct":0.98,"week52_low":null,"week52_high":null,"week52_position_pct":null,"distance_from_52w_high_pct":null,"source":"AP same-date close","validation_required":["52w"]},
+    "RUSSELL 2000": {"symbol":"^RUT","trade_date":"2026-08-21","close":3017.87,"change":25.44,"change_pct":0.85,"week52_low":2252.43,"week52_high":3069.71,"week52_position_pct":93.66,"distance_from_52w_high_pct":-1.69,"source":"AP + prior verified 52w","validation_required":["52w_same_date_crosscheck"]},
+    "VIX": {"symbol":"^VIX","trade_date":"2026-08-21","close":15.13,"change":-0.88,"change_pct":-5.50,"week52_low":13.38,"week52_high":35.30,"week52_position_pct":8.72,"distance_from_52w_high_pct":-57.14,"source":"CBOE/Yahoo delayed close","validation_required":["same_date_crosscheck"]},
+    "SOX": {"symbol":"^SOX","trade_date":"2026-08-21","close":11740.37,"change":-59.65,"change_pct":-0.51,"week52_low":5480.0,"week52_high":14655.3,"week52_position_pct":68.23,"distance_from_52w_high_pct":-19.89,"source":"Nasdaq Index History","validation_required":["52w_same_date_crosscheck"]},
+    "DXY": {"symbol":"DX-Y.NYB","trade_date":"2026-08-21","close":98.84,"change":0.04,"change_pct":0.04,"week52_low":95.55,"week52_high":101.80,"week52_position_pct":52.64,"distance_from_52w_high_pct":-2.91,"source":"Yahoo/ICE delayed close","validation_required":["same_date_crosscheck"]},
+    "US10Y": {"symbol":"^TNX","trade_date":"2026-08-21","close":4.738,"change":0.042,"change_pct":0.89,"change_bps":4.2,"price_type":"yield_pct","week52_low":null,"week52_high":null,"week52_position_pct":null,"distance_from_52w_high_pct":null,"source":"Reuters/Yahoo","validation_required":["52w"]},
+    "GOLD": {"symbol":"GC=F","trade_date":"2026-08-21","close":4680.60,"change":109.20,"change_pct":2.39,"price_type":"futures_close","week52_low":null,"week52_high":5318.40,"week52_position_pct":null,"distance_from_52w_high_pct":-11.99,"source":"Yahoo front-month","validation_required":["52w_low","contract_alignment"]},
+    "WTI": {"symbol":"CL=F","trade_date":"2026-08-21","close":87.06,"change":0.23,"change_pct":0.26,"week52_low":null,"week52_high":null,"week52_position_pct":null,"distance_from_52w_high_pct":null,"source":"Yahoo front-month","validation_required":["52w","contract_alignment"]},
     "BRENT": {"symbol":"BZ=F","trade_date":"2026-08-21","close":94.39,"change":0.61,"change_pct":0.65,"week52_low":null,"week52_high":null,"week52_position_pct":null,"distance_from_52w_high_pct":null,"source":"Reuters","validation_required":["52w"]},
-    "USD/TWD": {"symbol":"TWD=X","trade_date":"2026-08-21","close":null,"change":null,"change_pct":null,"week52_low":null,"week52_high":null,"week52_position_pct":null,"distance_from_52w_high_pct":null,"source":"same-date GitHub validation required","validation_required":["close","change","change_pct","52w"]}
+    "USD/TWD": {"symbol":"TWD=X","trade_date":"2026-08-21","close":31.848,"change":-0.077,"change_pct":-0.24,"week52_low":null,"week52_high":null,"week52_position_pct":null,"distance_from_52w_high_pct":null,"source":"Taiwan FX close cited by CNA/Yahoo","validation_required":["52w","same_date_crosscheck"]}
   },
   "stocks": {
-    "TSM ADR": {"symbol":"TSM","trade_date":"2026-08-21","close":420.52,"change":4.52,"change_pct":1.09,"week52_low":223.70,"week52_high":479.00,"week52_position_pct":77.88,"distance_from_52w_high_pct":-12.21,"candles":[],"source":"prior canonical","validation_required":["candles","same_date_crosscheck"]},
-    "NVIDIA": {"symbol":"NVDA","trade_date":"2026-08-21","close":215.74,"change":-1.11,"change_pct":-0.51,"week52_low":164.07,"week52_high":236.54,"week52_position_pct":71.30,"distance_from_52w_high_pct":-8.79,"candles":[],"source":"prior canonical","validation_required":["candles","same_date_crosscheck"]},
-    "AMD": {"symbol":"AMD","trade_date":"2026-08-21","close":469.70,"change":0.24,"change_pct":0.05,"week52_low":149.22,"week52_high":584.73,"week52_position_pct":73.59,"distance_from_52w_high_pct":-19.67,"candles":[],"source":"prior canonical","validation_required":["candles","same_date_crosscheck"]},
-    "Apple": {"symbol":"AAPL","trade_date":"2026-08-21","close":311.30,"change":0.00,"change_pct":0.00,"week52_low":223.78,"week52_high":344.57,"week52_position_pct":72.46,"distance_from_52w_high_pct":-9.66,"candles":[],"source":"prior canonical","validation_required":["candles","same_date_crosscheck"]},
-    "Microsoft": {"symbol":"MSFT","trade_date":"2026-08-21","close":481.02,"change":-0.13,"change_pct":-0.03,"week52_low":349.20,"week52_high":553.72,"week52_position_pct":64.45,"distance_from_52w_high_pct":-13.13,"candles":[],"source":"prior canonical","validation_required":["candles","same_date_crosscheck"]}
+    "TSM ADR": {"symbol":"TSM","trade_date":"2026-08-21","close":418.95,"change":2.95,"change_pct":0.71,"week52_low":223.70,"week52_high":479.00,"week52_position_pct":76.48,"distance_from_52w_high_pct":-12.54,"candles":[],"source":"CNA/Yahoo","validation_required":["candles"]},
+    "NVIDIA": {"symbol":"NVDA","trade_date":"2026-08-21","close":214.72,"change":-2.13,"change_pct":-0.98,"week52_low":164.07,"week52_high":236.54,"week52_position_pct":69.89,"distance_from_52w_high_pct":-9.22,"candles":[],"source":"Yahoo Finance","validation_required":["candles"]},
+    "AMD": {"symbol":"AMD","trade_date":"2026-08-21","close":473.25,"change":3.80,"change_pct":0.81,"week52_low":149.22,"week52_high":584.73,"week52_position_pct":74.40,"distance_from_52w_high_pct":-19.07,"candles":[],"source":"Yahoo Finance","validation_required":["candles"]},
+    "Apple": {"symbol":"AAPL","trade_date":"2026-08-21","close":309.35,"change":-1.95,"change_pct":-0.63,"week52_low":224.69,"week52_high":344.57,"week52_position_pct":70.62,"distance_from_52w_high_pct":-10.22,"candles":[],"source":"Yahoo Finance","validation_required":["candles"]},
+    "Microsoft": {"symbol":"MSFT","trade_date":"2026-08-21","close":483.24,"change":2.09,"change_pct":0.43,"week52_low":349.20,"week52_high":553.72,"week52_position_pct":65.54,"distance_from_52w_high_pct":-12.73,"candles":[],"source":"Yahoo Finance","validation_required":["candles"]}
   },
   "taiwan_futures": {
     "contract":"TX",
@@ -48,58 +49,65 @@
     "foreign_net_oi":null,
     "foreign_net_change":null,
     "source":"TAIFEX official same-session validation required",
-    "note":"Friday after-hours session belongs to Monday 2026-08-24. Do not substitute 2026-08-21 day-session OI or stale third-party data.",
+    "note":"Do not use 8/21 day-session OI or ambiguous third-party contract pages. GitHub fetch_taifex must fill only the official 2026-08-24 attributed after-hours session.",
     "validation_required":["official_night_close","change_points","change_pct","high","low","volume","total_oi","oi_change","institutional_OI"]
   },
-  "finviz": {"url":"https://finviz.com/map?t=sec_ndx","expected_trade_date":"2026-08-21","path":null,"capture_required_at_github":true,"rule":"Capture fresh at render time; reject or warn if heatmap is not 2026-08-21."},
+  "finviz": {"url":"https://finviz.com/map?t=sec_ndx","expected_trade_date":"2026-08-21","path":null,"capture_required_at_github":true,"rule":"Capture fresh at render time and warn on trade-date mismatch."},
+  "sector_rotation": {"generate_at_github":true,"benchmark":"SPY","etfs":["XLK","XLC","XLY","XLP","XLE","XLF","XLV","XLI","XLB","XLRE","XLU"],"x_axis":"21-session return minus SPY","y_axis":"5-session return minus SPY","tail_sessions":5,"rule":"Insert immediately after Finviz; generate Taiwan implications; same trade-date check required."},
   "breaking_news": [
-    {"importance":"HIGH","published_date":"2026-08-22","headline":"Canada announces dollar-for-dollar retaliation after new 50% U.S. tariffs","summary":"Canada said retaliatory tariffs on U.S. steel, electronics, dairy, appliances, agricultural equipment, pulp and paper and other products will begin September 8 after U.S.-Canada trade talks failed.","market_impact":"Raises North American trade-policy risk and can pressure industrial, auto, materials and cross-border supply-chain sentiment.","taiwan_impact":"Indirect negative for global risk appetite; monitor electronics supply-chain tariff spillovers and CAD/USD moves.","source":"Reuters"},
-    {"importance":"HIGH","published_date":"2026-08-22","headline":"Iran condemns new U.S. sanctions as Hormuz oil traffic remains severely constrained","summary":"U.S. Treasury Secretary Scott Bessent is due to detail new Iran sanctions Monday. Reuters reported Strait of Hormuz traffic remains far below pre-war levels, preserving a large oil supply risk premium.","market_impact":"Keeps crude oil and inflation risk elevated and can push long yields higher.","taiwan_impact":"Negative for transport and energy-intensive margins; higher yields remain a valuation headwind for high-multiple technology shares.","source":"Reuters"},
-    {"importance":"HIGH","published_date":"2026-08-21","headline":"Wall Street rebounded Friday but ended the week lower","summary":"S&P 500 +0.43%, Nasdaq +0.44%, Dow +0.98%; the weekly picture remained weaker as bond yields and oil stayed high.","market_impact":"Friday rebound is tactical rather than a clean macro reset.","taiwan_impact":"Positive opening impulse, but SOX weakness argues against assuming broad semiconductor strength.","source":"Reuters"}
+    {"importance":"HIGH","published_date":"2026-08-23","headline":"U.S. prepares tougher Iran sanctions as Tehran rejects pressure","summary":"Iran rejected threatened U.S. sanctions while Washington prepared a new sanctions package. Hormuz disruption continues to preserve a large oil-supply risk premium.","market_impact":"Keeps crude, inflation expectations and long-end yields as key equity valuation risks.","taiwan_impact":"Higher energy and funding costs are negative for transport and high-multiple technology; energy/materials rotation can stay supported.","source":"Reuters"},
+    {"importance":"HIGH","published_date":"2026-08-23","headline":"Gulf markets rise as oil gains on Iran sanction threat","summary":"Gulf equities advanced as crude supply concerns lifted energy, materials and financial shares; Brent Friday close was $94.39.","market_impact":"Confirms energy remains a live macro and sector-rotation driver entering the week.","taiwan_impact":"Watch plastics/energy/shipping relative strength versus rate-sensitive electronics.","source":"Reuters"}
   ],
   "ai_semiconductor_news": [
-    {"importance":"HIGH","published_date":"2026-08-22","company":"NVIDIA / AI server ecosystem","headline":"NVIDIA customers reportedly told AI-server prices may rise more than 15%","summary":"Reuters cited a Bloomberg report that servers containing NVIDIA AI chips could see price increases above 15% in many cases as memory costs surge, affecting early-2027 systems including Vera Rubin and Grace Blackwell configurations.","market_impact":"Signals strong component cost pressure and continued scarcity in the AI infrastructure stack; pricing power can support revenue dollars but may raise customer ROI scrutiny.","taiwan_impact":"Potentially positive revenue mix for TSMC, memory, AI server ODM, PCB, power and cooling, while higher system costs could shift order timing and supplier negotiations.","source":"Reuters/Bloomberg report"},
-    {"importance":"HIGH","published_date":"2026-08-21","company":"NVIDIA","headline":"NVIDIA Aug. 26 earnings remains the largest near-term AI catalyst","summary":"NVIDIA reports fiscal Q2 on August 26 as markets test whether AI infrastructure demand can absorb higher financing and component costs.","market_impact":"Major catalyst for semiconductor risk premium and hyperscaler capex expectations.","taiwan_impact":"Highest sensitivity: TSMC, CoWoS, AI servers, networking, PCB, cooling and power.","source":"Reuters"}
+    {"importance":"HIGH","published_date":"2026-08-23","company":"Alibaba / AI infrastructure","headline":"Alibaba launches $10.2 billion Hong Kong share placement to fund full-stack AI","summary":"Alibaba plans to use 100% of net proceeds for AI chips, compute infrastructure and model development; the deal was upsized after strong demand.","market_impact":"Extends evidence that AI compute capex remains structurally strong despite financing-cost concerns.","taiwan_impact":"Constructive for foundry, advanced packaging, servers, networking, PCB, power and cooling demand; monitor China-localization competition in chips.","source":"Reuters"},
+    {"importance":"HIGH","published_date":"2026-08-22","company":"NVIDIA / AI server ecosystem","headline":"NVIDIA customers reportedly told AI-server prices may rise more than 15%","summary":"Reuters cited Bloomberg reporting that memory-cost inflation could lift prices of AI servers using Vera Rubin and Grace Blackwell systems shipped in early 2027.","market_impact":"Supports revenue-dollar growth but raises customer ROI and financing sensitivity.","taiwan_impact":"Positive mix for TSMC, memory, ODM, PCB, power and cooling; possible order-timing risk if total system cost rises too quickly.","source":"Reuters/Bloomberg"},
+    {"importance":"HIGH","published_date":"2026-08-21","company":"NVIDIA","headline":"NVIDIA Aug. 26 earnings is this week's largest single AI catalyst","summary":"Results will test whether AI infrastructure demand can absorb higher memory and financing costs after a volatile semiconductor week.","market_impact":"Potentially high beta for semiconductors and hyperscaler capex proxies.","taiwan_impact":"Highest sensitivity: TSMC, CoWoS, AI server ODMs, networking, PCB, cooling and power.","source":"Reuters"}
   ],
   "major_earnings": [],
   "weekly_calendar": [
-    {"date":"2026-08-24","time_et":"14:00","time_tw":"2026-08-25 02:00","event":"U.S. Treasury Secretary Scott Bessent press conference / expected Iran sanctions detail","importance":"HIGH","source":"Reuters"},
-    {"date":"2026-08-25","time_et":"10:00","time_tw":"22:00","event":"U.S. New Home Sales - July 2026","importance":"MEDIUM","source":"U.S. Census Bureau"},
-    {"date":"2026-08-26","time_et":"08:30","time_tw":"20:30","event":"U.S. Durable Goods Orders - July 2026","importance":"HIGH","source":"U.S. Census Bureau"},
-    {"date":"2026-08-26","time_et":"08:30","time_tw":"20:30","event":"U.S. GDP Second Estimate / Corporate Profits - Q2 2026","importance":"HIGH","source":"U.S. BEA"},
-    {"date":"2026-08-26","time_et":"08:30","time_tw":"20:30","event":"U.S. Personal Income and Outlays / July PCE and Core PCE","importance":"HIGH","source":"U.S. BEA"},
-    {"date":"2026-08-27 to 2026-08-29","time_et":null,"time_tw":null,"event":"Jackson Hole Economic Policy Symposium / Fed Chair Kevin Warsh watch","importance":"HIGH","source":"Reuters/Kansas City Fed","verification_required":"Confirm speaker-specific time before display."}
+    {"date":"2026-08-24","time_et":null,"time_tw":null,"event":"Chicago Fed National Activity Index","importance":"LOW","source":"economic release calendar"},
+    {"date":"2026-08-25","time_et":"10:00","time_tw":"22:00","event":"U.S. New Home Sales / Consumer Confidence / home-price data","importance":"MEDIUM","source":"Kiplinger/economic calendar"},
+    {"date":"2026-08-26","time_et":"08:30","time_tw":"20:30","event":"U.S. July PCE & Core PCE; Q2 GDP second estimate; durable goods","importance":"HIGH","source":"BEA/economic calendar"},
+    {"date":"2026-08-27","time_et":"08:30","time_tw":"20:30","event":"U.S. Initial Jobless Claims","importance":"MEDIUM","source":"economic calendar"},
+    {"date":"2026-08-28","time_et":null,"time_tw":null,"event":"Jackson Hole / Fed Chair Kevin Warsh keynote watch; revised Michigan sentiment and Chicago PMI","importance":"HIGH","source":"Reuters/Kiplinger","verification_required":"Confirm Warsh speech time before final render."}
   ],
   "earnings_calendar": [
-    {"date":"2026-08-25","company":"Intuit","ticker":"INTU","timing":"after market","importance":"MEDIUM","taiwan_relevance":"software/SMB spending"},
+    {"date":"2026-08-24","company":"PDD Holdings","ticker":"PDD","timing":"scheduled","importance":"MEDIUM","taiwan_relevance":"China consumer/advertising sentiment"},
+    {"date":"2026-08-25","company":"Intuit","ticker":"INTU","timing":"scheduled","importance":"MEDIUM","taiwan_relevance":"software/SMB spending"},
     {"date":"2026-08-26","company":"NVIDIA","ticker":"NVDA","timing":"after market","importance":"HIGH","taiwan_relevance":"TSMC, CoWoS, AI servers, networking, PCB, cooling, power"},
-    {"date":"2026-08-26","company":"Salesforce","ticker":"CRM","timing":"after market","importance":"MEDIUM","taiwan_relevance":"enterprise AI software demand"},
-    {"date":"2026-08-26","company":"CrowdStrike","ticker":"CRWD","timing":"scheduled","importance":"MEDIUM","taiwan_relevance":"AI/cybersecurity spending"}
+    {"date":"2026-08-26","company":"Salesforce","ticker":"CRM","timing":"scheduled","importance":"MEDIUM","taiwan_relevance":"enterprise AI software demand"},
+    {"date":"2026-08-26","company":"CrowdStrike","ticker":"CRWD","timing":"scheduled","importance":"MEDIUM","taiwan_relevance":"AI/cybersecurity spending"},
+    {"date":"2026-08-27","company":"Marvell Technology","ticker":"MRVL","timing":"scheduled","importance":"HIGH","taiwan_relevance":"AI interconnect, custom silicon, networking"}
   ],
   "taiwan_market_impact": [
-    "Friday U.S. rebound gives Monday Taiwan equities a positive index impulse, but SOX -0.64% means semiconductor confirmation is incomplete.",
-    "NVIDIA server price-hike reports reinforce AI infrastructure demand and memory-cost pressure; watch TSMC, memory, ODM, PCB, power and cooling rather than treating the whole tech complex uniformly.",
-    "10-year yield near 4.74% and Brent above $94 preserve valuation and inflation risks.",
-    "Canada-U.S. tariff escalation adds a new trade-policy risk layer for global electronics and industrial supply chains.",
-    "Validate the Friday-night TX session as TAIFEX trade date 2026-08-24 before making directional OI conclusions."
+    "Friday U.S. rebound supports Monday index sentiment, but SOX closed -0.51% and the chip index lost roughly 5% for the week, so do not treat the rebound as broad semiconductor confirmation.",
+    "TSM ADR +0.71% is supportive for TSMC, while NVDA -0.98% and AMD +0.81% show continued dispersion inside AI semiconductors.",
+    "Alibaba's $10.2B AI financing reinforces structural compute demand; focus on foundry, CoWoS, servers, networking, PCB, cooling and power rather than indiscriminate tech exposure.",
+    "Iran/Hormuz risk keeps Brent near $94 and can support energy/materials while pressuring transport and long-duration growth valuations.",
+    "Sector Rotation scene should be generated after Finviz and translated to Taiwan groups. Technology Fading/Lagging is a chase-risk signal; Energy/Health Care Leading or Emerging favors rotation rather than broad risk-on.",
+    "TX night-session/OI remains intentionally null until the official TAIFEX 2026-08-24 attributed session is fetched."
   ],
   "video_storyboard": [
-    {"scene":1,"time":"0-7s","title":"今日三大重點","points":["美股週五反彈但週線轉弱","NVIDIA AI伺服器傳漲價逾15%","加拿大關稅與伊朗制裁抬高宏觀風險"]},
-    {"scene":2,"time":"7-28s","title":"美股四大指數","points":["S&P 500 7,674.37 +0.43%","NASDAQ 26,180.46 +0.44%","Dow 53,277.01 +0.98%","Russell 2000 3,017.87 +0.85%"]},
-    {"scene":3,"time":"28-43s","title":"跨市場雷達","points":["VIX 15.13 -5.50%","DXY 98.84 +0.04%","US10Y 4.738%","Gold 4,680.60 +2.39%","WTI 87.06 +0.26%"]},
-    {"scene":4,"time":"43-57s","title":"Finviz NASDAQ-100 Heatmap","points":["使用8/21最新交易日熱力圖","確認科技權值與產業資金分布"]},
-    {"scene":5,"time":"57-78s","title":"AI與半導體","points":["SOX -0.64%","TSM ADR +1.09%","NVDA -0.51%","AI伺服器漲價傳聞凸顯記憶體成本與供應鏈定價"]},
-    {"scene":6,"time":"78-98s","title":"重大新聞","points":["加拿大9/8起報復性關稅","美國週一公布更嚴厲伊朗制裁","Hormuz油運受限維持油價風險溢價"]},
-    {"scene":7,"time":"98-109s","title":"台指期夜盤/OI","points":["只使用TAIFEX 2026-08-24歸屬夜盤資料","OI缺值不得用8/21日盤替代"]},
-    {"scene":8,"time":"109-120s","title":"本週關鍵事件","points":["8/26 PCE/GDP/耐久財","8/26 NVIDIA財報","8/27-29 Jackson Hole"]}
+    {"scene":1,"time":"0-7s","title":"今日三大重點","points":["美股週五反彈，但晶片週線仍弱","Alibaba募集102億美元加碼AI，NVIDIA財報在即","Iran/Hormuz讓油價與長債風險持續"]},
+    {"scene":2,"time":"7-25s","title":"美股四大指數","points":["S&P 500 7,674.37 +0.43%","NASDAQ 26,180.45 +0.43%","Dow 53,277.01 +0.98%","Russell 2000 3,017.87 +0.85%"]},
+    {"scene":3,"time":"25-39s","title":"市場雷達","points":["VIX 15.13","US10Y 4.738%","Gold 4,680.60","WTI 87.06","USD/TWD 31.848"]},
+    {"scene":4,"time":"39-51s","title":"Finviz Heatmap","points":["使用8/21最新完成交易日","科技權值與產業擴散"]},
+    {"scene":5,"time":"51-65s","title":"S&P 500 Sector Rotation","points":["SPY基準，1M/1W相對強弱","Leading/Emerging/Lagging/Fading","映射台股族群"]},
+    {"scene":6,"time":"65-84s","title":"AI / 半導體","points":["SOX 11,740.37 -0.51%","TSM 418.95 +0.71%","NVDA 214.72 -0.98%","AMD 473.25 +0.81%"]},
+    {"scene":7,"time":"84-100s","title":"重大新聞","points":["Alibaba AI募資102億美元","NVIDIA伺服器價格傳漲逾15%","Iran制裁與Hormuz風險"]},
+    {"scene":8,"time":"100-110s","title":"台指期夜盤 / OI","points":["只使用TAIFEX歸屬2026-08-24的官方夜盤/OI","不得以舊OI替代"]},
+    {"scene":9,"time":"110-120s","title":"本週焦點","points":["8/26 PCE+GDP+耐久財","8/26 NVIDIA財報","Jackson Hole / Warsh"]}
   ],
   "narration_points": [
-    "今天是週日，市場行情仍以8月21日最後完整交易日為準。",
-    "美股週五反彈，但週線仍受到長債殖利率與油價高檔壓力。",
-    "NVIDIA客戶據報被告知部分AI伺服器明年價格可能上調超過15%，反映記憶體成本與AI基建供需仍緊。",
-    "加拿大宣布對美國新關稅採取對等反制，北美貿易摩擦重新升溫。",
-    "伊朗制裁與Hormuz油運限制讓能源通膨風險持續存在。",
-    "台股週一可受美股反彈支撐，但SOX未同步走強，AI供應鏈應以選股而非全面看多解讀。",
-    "本週焦點集中在8月26日PCE、GDP、耐久財與NVIDIA財報，以及Jackson Hole政策訊號。"
-  ]
+    "美股週五反彈，但SOX仍下跌百分之零點五一，晶片股週線壓力尚未解除。",
+    "Alibaba募集約一百零二億美元投入全棧AI，顯示全球AI算力資本支出仍有韌性。",
+    "NVIDIA本週三公布財報，同時AI伺服器價格傳出因記憶體成本上升而調高。",
+    "Iran與Hormuz風險讓油價維持高檔，對通膨與長債殖利率形成壓力。",
+    "Finviz之後加入Sector Rotation，判斷資金是否由科技轉向能源、醫療與其他族群。"
+  ],
+  "data_quality": {
+    "status":"READY_WITH_VALIDATION_GAPS",
+    "corrected_fields":["TSM ADR close/change/pct","NVDA close/change/pct","AMD close/change/pct","Apple close/change/pct","Microsoft close/change/pct","SOX close/change/pct","USD/TWD close"],
+    "pending_same_date_validation":["index 52w fields","US10Y 52w","gold/wti contract-aligned 52w","stock candles","TAIFEX 2026-08-24 night session and OI","Finviz trade-date capture","Sector Rotation trade-date match"]
+  }
 }
