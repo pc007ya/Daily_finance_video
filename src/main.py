@@ -13,7 +13,7 @@ from .fetch_finmind import fill_missing
 from .build_report import build_report
 from .build_narration import build_segments
 from .tts_edge import synthesize_segments
-from .render_video import render_daily_video
+from .render_video_sector import render_daily_video
 from .sector_rotation import build_sector_rotation
 
 
@@ -66,7 +66,6 @@ def main() -> None:
     else:
         report = build_report(market, date_text, str(finviz)); report["market_trade_date"] = report.get("market_trade_date") or date_text
         report["source_mode"] = "GITHUB_FALLBACK_NO_VALID_CANONICAL"; validation.append({"status": "NO_VALID_CANONICAL", "report_date": date_text})
-    # Sector data is derived from market history on GitHub and never overwrites canonical market quotes.
     report["sector_rotation"] = sector_rotation
     if sector_rotation.get("trade_date") != report.get("market_trade_date"):
         validation.append({"section":"sector_rotation","status":"DATE_MISMATCH","sector_trade_date":sector_rotation.get("trade_date"),"market_trade_date":report.get("market_trade_date")})
