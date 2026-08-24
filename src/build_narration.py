@@ -40,14 +40,18 @@ def _sector_sentence(rot: dict) -> list[str]:
     if rot.get("status") != "OK": return []
     sig = rot.get("signals", {})
     leading = sig.get("leading") or []
-    emerging = sig.get("emerging") or []
-    fading = sig.get("fading") or []
+    improving = sig.get("improving") or []
+    weakening = sig.get("weakening") or []
     transitions = sig.get("transitions") or []
-    out = ["接著看標普五百板塊輪動，一個月與一週相對SPY的強弱，以及最近五個交易日的移動方向。"]
+    out = ["接著看標普五百RRG風格板塊輪動，以SPY為基準，觀察相對強度、動能與最近五個交易日的移動方向。"]
     if leading: out.append("目前領先象限以" + "、".join(leading[:3]) + "為主。")
-    if emerging: out.append("正在轉強的板塊包括" + "、".join(emerging[:3]) + "，值得留意後續是否進入領先象限。")
-    if fading: out.append("動能降溫的板塊包括" + "、".join(fading[:3]) + "。")
-    if transitions: out.append("最新象限切換是" + "；".join(transitions[:2]).replace("LEADING", "領先").replace("EMERGING", "轉強").replace("LAGGING", "落後").replace("FADING", "降溫") + "。")
+    if improving: out.append("正在改善象限的板塊包括" + "、".join(improving[:3]) + "，留意是否進一步轉入領先。")
+    if weakening: out.append("進入轉弱象限的板塊包括" + "、".join(weakening[:3]) + "，短線追價要更謹慎。")
+    if transitions:
+        spoken = "；".join(transitions[:2])
+        spoken = (spoken.replace("LEADING", "領先").replace("IMPROVING", "改善")
+                  .replace("LAGGING", "落後").replace("WEAKENING", "轉弱"))
+        out.append("最新象限切換是" + spoken + "。")
     return out[:4]
 
 
