@@ -1,582 +1,87 @@
 {
   "schema_version": "2.1",
-  "report_date": "2026-09-02",
-  "market_trade_date": "2026-09-01",
-  "generated_at": "2026-09-02T05:58:00+08:00",
+  "report_date": "2026-09-03",
+  "market_trade_date": "2026-09-02",
+  "generated_at": "2026-09-03T05:59:56+08:00",
   "source_mode": "CHATGPT_CANONICAL_WITH_GITHUB_SAME_DATE_VALIDATION",
   "source_policy": {
     "canonical_priority": true,
     "fallback_rule": "GitHub/yfinance, FinMind and TAIFEX may fill null fields only when the observation belongs to the same specified trade date/session date. Never silently overwrite a non-null canonical value or use a different trade date.",
-    "trade_date_rule": "Latest completed U.S. cash session is 2026-09-01. Taiwan cash/FX/OI latest completed session is 2026-09-01. TAIFEX after-hours physical window 2026-09-01 15:00–2026-09-02 05:00 is attributed to session_trade_date 2026-09-02.",
+    "trade_date_rule": "Latest completed U.S. cash session is 2026-09-02. Taiwan FX latest completed official close is 2026-09-02. TAIFEX after-hours physical window 2026-09-02 15:00–2026-09-03 05:00 is attributed to session_trade_date 2026-09-03.",
     "uncertainty_rule": "When exact same-session data are not independently verified, retain null and flag validation_required. Different-date observations must never be blended."
   },
   "indices": {
-    "S&P 500": {
-      "symbol": "^GSPC",
-      "trade_date": "2026-09-01",
-      "close": 7631.47,
-      "change": -54.67,
-      "change_pct": -0.71,
-      "week52_low": 6316.91,
-      "week52_high": 7816.7,
-      "week52_position_pct": 87.65,
-      "distance_from_52w_high_pct": -2.37,
-      "source": "AP/Reuters close; 52w range cross-source",
-      "validation_required": []
-    },
-    "NASDAQ": {
-      "symbol": "^IXIC",
-      "trade_date": "2026-09-01",
-      "close": 26099.77,
-      "change": -271.11,
-      "change_pct": -1.03,
-      "week52_low": 20690.25,
-      "week52_high": 27190.21,
-      "week52_position_pct": 83.22,
-      "distance_from_52w_high_pct": -4.01,
-      "source": "AP/Reuters close; 52w range cross-source",
-      "validation_required": []
-    },
-    "DOW": {
-      "symbol": "^DJI",
-      "trade_date": "2026-09-01",
-      "close": 52766.88,
-      "change": -419.02,
-      "change_pct": -0.79,
-      "week52_low": 44948.16,
-      "week52_high": 54744.33,
-      "week52_position_pct": 79.81,
-      "distance_from_52w_high_pct": -3.61,
-      "source": "AP/Reuters close; 52w range cross-source",
-      "validation_required": []
-    },
-    "RUSSELL 2000": {
-      "symbol": "^RUT",
-      "trade_date": "2026-09-01",
-      "close": 2920.13,
-      "change": -36.32,
-      "change_pct": -1.23,
-      "week52_low": 2303.46,
-      "week52_high": 3069.71,
-      "week52_position_pct": 80.48,
-      "distance_from_52w_high_pct": -4.87,
-      "source": "AP close; 52w range cross-source",
-      "validation_required": []
-    },
-    "VIX": {
-      "symbol": "^VIX",
-      "trade_date": "2026-09-01",
-      "close": 16.09,
-      "change": 1.17,
-      "change_pct": 7.84,
-      "week52_low": 13.38,
-      "week52_high": 35.3,
-      "week52_position_pct": 12.36,
-      "distance_from_52w_high_pct": -54.42,
-      "source": "Cboe official Sep-1 close",
-      "validation_required": []
-    },
-    "DXY": {
-      "symbol": "DX-Y.NYB",
-      "trade_date": "2026-09-01",
-      "close": 99.623,
-      "change": null,
-      "change_pct": 0.2,
-      "week52_low": 95.36,
-      "week52_high": 101.57,
-      "week52_position_pct": 68.65,
-      "distance_from_52w_high_pct": -1.92,
-      "source": "Reuters/market-data close area",
-      "validation_required": [
-        "exact_same_date_change_amount"
-      ]
-    },
-    "GOLD": {
-      "symbol": "GC=F",
-      "trade_date": "2026-09-01",
-      "close": 4396.4,
-      "change": null,
-      "change_pct": -1.9,
-      "week52_low": 3388.6,
-      "week52_high": 5318.4,
-      "week52_position_pct": 52.22,
-      "distance_from_52w_high_pct": -17.34,
-      "source": "Reuters COMEX Dec-2026 futures settlement",
-      "price_type": "COMEX_Dec_2026_futures",
-      "validation_required": [
-        "exact_change_amount",
-        "52w_crosscheck"
-      ]
-    },
-    "WTI": {
-      "symbol": "CL=F",
-      "trade_date": "2026-09-01",
-      "close": 90.22,
-      "change": 4.46,
-      "change_pct": 5.2,
-      "week52_low": null,
-      "week52_high": null,
-      "week52_position_pct": null,
-      "distance_from_52w_high_pct": null,
-      "source": "Reuters U.S. crude futures settlement",
-      "price_type": "WTI_Oct_2026_futures",
-      "validation_required": [
-        "52w"
-      ]
-    },
-    "SOX": {
-      "symbol": "^SOX",
-      "trade_date": "2026-09-01",
-      "close": null,
-      "change": null,
-      "change_pct": null,
-      "week52_low": 5503.12,
-      "week52_high": 14655.29,
-      "week52_position_pct": null,
-      "distance_from_52w_high_pct": null,
-      "source": "Exact Sep-1 final PHLX Semiconductor Index level not independently verified before cutoff; intraday public quote showed material weakness.",
-      "validation_required": [
-        "exact_same_date_close_change",
-        "52w_position_after_fill"
-      ]
-    },
-    "US10Y": {
-      "symbol": "^TNX",
-      "trade_date": "2026-09-01",
-      "close": 4.77,
-      "change": 0.013,
-      "change_bps": 1.3,
-      "change_pct": 0.27,
-      "week52_low": 3.97,
-      "week52_high": 4.798,
-      "week52_position_pct": 96.62,
-      "distance_from_52w_high_pct": -0.58,
-      "source": "Reuters/WSJ Treasury close-area quote; intraday high 4.798%",
-      "price_type": "yield_pct",
-      "validation_required": [
-        "official_close_crosscheck"
-      ]
-    },
-    "USD/TWD": {
-      "symbol": "TWD=X",
-      "trade_date": "2026-09-01",
-      "close": 31.633,
-      "change": -0.033,
-      "change_pct": -0.1,
-      "week52_low": 30.063,
-      "week52_high": 32.413,
-      "week52_position_pct": 66.81,
-      "distance_from_52w_high_pct": -2.41,
-      "source": "Taipei FX market/CNA close; 52w range cross-source",
-      "validation_required": [
-        "52w_crosscheck"
-      ]
-    }
+    "S&P 500": {"symbol":"^GSPC","trade_date":"2026-09-02","close":7666.63,"change":35.16,"change_pct":0.46,"week52_low":6316.91,"week52_high":7816.7,"week52_position_pct":89.99,"distance_from_52w_high_pct":-1.92,"source":"Reuters final close; 52w range carried from prior canonical/cross-source","validation_required":[]},
+    "NASDAQ": {"symbol":"^IXIC","trade_date":"2026-09-02","close":26217.83,"change":118.05,"change_pct":0.45,"week52_low":20690.25,"week52_high":27190.21,"week52_position_pct":85.04,"distance_from_52w_high_pct":-3.58,"source":"Reuters final close; 52w range carried from prior canonical/cross-source","validation_required":[]},
+    "DOW": {"symbol":"^DJI","trade_date":"2026-09-02","close":53061.89,"change":295.01,"change_pct":0.56,"week52_low":44948.16,"week52_high":54744.33,"week52_position_pct":82.83,"distance_from_52w_high_pct":-3.07,"source":"Reuters final close; 52w range carried from prior canonical/cross-source","validation_required":[]},
+    "RUSSELL 2000": {"symbol":"^RUT","trade_date":"2026-09-02","close":2953.17,"change":33.04,"change_pct":1.13,"week52_low":2303.46,"week52_high":3069.71,"week52_position_pct":84.79,"distance_from_52w_high_pct":-3.8,"source":"AP final close; Reuters confirmed ~+1.1%; 52w range cross-source","validation_required":[]},
+    "VIX": {"symbol":"^VIX","trade_date":"2026-09-02","close":15.94,"change":-0.4,"change_pct":-2.45,"week52_low":13.38,"week52_high":35.3,"week52_position_pct":11.68,"distance_from_52w_high_pct":-54.84,"source":"Investing historical close; 52w range cross-source","validation_required":[]},
+    "DXY": {"symbol":"DX-Y.NYB","trade_date":"2026-09-02","close":99.59,"change":-0.09,"change_pct":-0.09,"week52_low":95.36,"week52_high":101.57,"week52_position_pct":68.12,"distance_from_52w_high_pct":-1.95,"source":"Investing historical close; 52w range cross-source","validation_required":[]},
+    "GOLD": {"symbol":"GC=F","trade_date":"2026-09-02","close":4414.6,"change":18.2,"change_pct":0.41,"week52_low":3573.7,"week52_high":5626.8,"week52_position_pct":40.96,"distance_from_52w_high_pct":-21.54,"source":"Reuters COMEX Dec-2026 settlement; 52w range Investing","validation_required":[],"price_type":"COMEX_Dec_2026_futures"},
+    "WTI": {"symbol":"CL=F","trade_date":"2026-09-02","close":91.01,"change":0.79,"change_pct":0.88,"week52_low":null,"week52_high":null,"week52_position_pct":null,"distance_from_52w_high_pct":null,"source":"Reuters WTI settlement","price_type":"WTI_front_month_futures","validation_required":["52w_range_same_instrument"]},
+    "SOX": {"symbol":"^SOX","trade_date":"2026-09-02","close":11321.4,"change":32.8,"change_pct":0.29,"week52_low":5538.2,"week52_high":14655.3,"week52_position_pct":63.43,"distance_from_52w_high_pct":-22.75,"source":"Investing PHLX Semiconductor historical close; Reuters confirmed index rose","validation_required":[]},
+    "US10Y": {"symbol":"^TNX","trade_date":"2026-09-02","close":4.785,"change":-0.011,"change_pct":-0.23,"week52_low":3.926,"week52_high":4.82,"week52_position_pct":96.09,"distance_from_52w_high_pct":-0.73,"source":"Investing U.S. 10Y historical close/range; Reuters close-area ~4.78%","validation_required":[],"price_type":"yield_pct","change_bps":-1.1},
+    "USD/TWD": {"symbol":"TWD=X","trade_date":"2026-09-02","close":31.728,"change":0.095,"change_pct":0.3,"week52_low":30.063,"week52_high":32.413,"week52_position_pct":70.85,"distance_from_52w_high_pct":-2.11,"source":"Central Bank of the Republic of China official Taipei FX closing rate; 52w range cross-source","validation_required":[]}
   },
   "stocks": {
-    "TSM ADR": {
-      "symbol": "TSM",
-      "trade_date": "2026-09-01",
-      "close": 414.0,
-      "change": -1.32,
-      "change_pct": -0.32,
-      "week52_low": 225.63,
-      "week52_high": 479.0,
-      "week52_position_pct": 74.35,
-      "distance_from_52w_high_pct": -13.57,
-      "source": "Yahoo Taiwan ADR/Zacks final close; 52w range cross-source",
-      "validation_required": []
-    },
-    "NVIDIA": {
-      "symbol": "NVDA",
-      "trade_date": "2026-09-01",
-      "close": 217.43,
-      "change": -3.35,
-      "change_pct": -1.52,
-      "week52_low": 164.07,
-      "week52_high": 236.54,
-      "week52_position_pct": 73.63,
-      "distance_from_52w_high_pct": -8.08,
-      "source": "ChartExchange final close; 52w range cross-source",
-      "validation_required": []
-    },
-    "AMD": {
-      "symbol": "AMD",
-      "trade_date": "2026-09-01",
-      "close": 459.61,
-      "change": -11.11,
-      "change_pct": -2.36,
-      "week52_low": 149.22,
-      "week52_high": 584.73,
-      "week52_position_pct": 71.27,
-      "distance_from_52w_high_pct": -21.4,
-      "source": "MarketWatch final close; 52w range cross-source",
-      "validation_required": []
-    },
-    "Apple": {
-      "symbol": "AAPL",
-      "trade_date": "2026-09-01",
-      "close": 325.13,
-      "change": 8.28,
-      "change_pct": 2.61,
-      "week52_low": 225.95,
-      "week52_high": 344.57,
-      "week52_position_pct": 83.61,
-      "distance_from_52w_high_pct": -5.64,
-      "source": "StockAnalysis final close; 52w range cross-source",
-      "validation_required": []
-    },
-    "Microsoft": {
-      "symbol": "MSFT",
-      "trade_date": "2026-09-01",
-      "close": 501.02,
-      "change": -6.27,
-      "change_pct": -1.24,
-      "week52_low": 349.2,
-      "week52_high": 553.72,
-      "week52_position_pct": 74.23,
-      "distance_from_52w_high_pct": -9.52,
-      "source": "MarketWatch final close; 52w range cross-source",
-      "validation_required": []
-    }
+    "TSM ADR": {"symbol":"TSM","trade_date":"2026-09-02","close":414.8,"change":0.8,"change_pct":0.19,"week52_low":225.63,"week52_high":479.0,"week52_position_pct":74.66,"distance_from_52w_high_pct":-13.4,"source":"Investing historical close; 52w range same source","validation_required":[]},
+    "NVIDIA": {"symbol":"NVDA","trade_date":"2026-09-02","close":224.39,"change":6.95,"change_pct":3.2,"week52_low":164.07,"week52_high":236.54,"week52_position_pct":83.23,"distance_from_52w_high_pct":-5.14,"source":"Reuters confirmed +3.2%; Investing final quote/range","validation_required":[]},
+    "AMD": {"symbol":"AMD","trade_date":"2026-09-02","close":457.33,"change":-2.28,"change_pct":-0.5,"week52_low":149.22,"week52_high":584.73,"week52_position_pct":70.75,"distance_from_52w_high_pct":-21.79,"source":"Investing historical close; 52w range prior canonical/cross-source","validation_required":[]},
+    "Apple": {"symbol":"AAPL","trade_date":"2026-09-02","close":326.13,"change":1.0,"change_pct":0.31,"week52_low":225.95,"week52_high":344.57,"week52_position_pct":84.45,"distance_from_52w_high_pct":-5.35,"source":"Investing historical close; 52w range prior canonical/cross-source","validation_required":[]},
+    "Microsoft": {"symbol":"MSFT","trade_date":"2026-09-02","close":496.93,"change":-4.09,"change_pct":-0.82,"week52_low":349.2,"week52_high":553.72,"week52_position_pct":72.23,"distance_from_52w_high_pct":-10.26,"source":"Investing historical close; 52w range same/cross-source","validation_required":[]}
   },
   "taiwan_futures": {
-    "contract": "TX",
-    "contract_month": "202609",
-    "session_trade_date": "2026-09-02",
-    "night_session_window": "2026-09-01 15:00 to 2026-09-02 05:00 Asia/Taipei",
-    "night_open": 47201,
-    "night_high": 47343,
-    "night_low": null,
-    "night_close": null,
-    "change_points": null,
-    "change_pct": null,
-    "volume": null,
-    "night_session_oi": null,
-    "regular_close": 47209,
-    "regular_change_points": 1232,
-    "regular_change_pct": 2.68,
-    "regular_volume": 57561,
-    "oi_trade_date": "2026-09-01",
-    "total_oi": null,
-    "foreign_net_oi": -78706,
-    "foreign_net_change": 4264,
-    "foreign_oi_trade_date": "2026-09-01",
-    "source": "TAIFEX/public futures reports for regular session and foreign OI; Economic Daily/Yahoo intraday reporting for 2026-09-02-attributed after-hours path.",
-    "note": "The 2026-09-02-attributed after-hours session opened near 47,201 and reported high 47,343 before selling off sharply, including a reported print near 46,652. Exact official final close/low/volume were not independently verified before cutoff, so they remain null. GitHub may fill only TAIFEX session_trade_date 2026-09-02 values and 2026-09-01 regular-session OI; never carry older OI.",
-    "validation_required": [
-      "TAIFEX_2026-09-02_same_session_final_close_low_volume",
-      "TAIFEX_2026-09-01_total_OI"
-    ]
+    "contract":"TX","contract_month":"202609","session_trade_date":"2026-09-03","night_session_window":"2026-09-02 15:00 to 2026-09-03 05:00 Asia/Taipei","night_open":null,"night_high":null,"night_low":null,"night_close":null,"change_points":null,"change_pct":null,"volume":null,"night_session_oi":null,"regular_close":null,"regular_change_points":null,"regular_change_pct":null,"regular_volume":null,"oi_trade_date":"2026-09-02","total_oi":null,"foreign_net_oi":null,"foreign_net_change":null,"foreign_oi_trade_date":"2026-09-02","source":"TAIFEX exact same-session values not independently retrievable before cutoff.","note":"Keep all unverified TAIFEX values null. GitHub may fill only official 2026-09-03 session after-hours values and 2026-09-02 regular/OI values; never carry prior-day night close or OI.","validation_required":["TAIFEX_2026-09-03_same_session_OHLC_volume","TAIFEX_2026-09-02_total_OI","TAIFEX_2026-09-02_foreign_OI"]
   },
-  "finviz": {
-    "url": "https://finviz.com/map?t=sec_ndx",
-    "expected_trade_date": "2026-09-01",
-    "path": null,
-    "capture_required_at_github": true,
-    "rule": "Capture fresh at render time; warn on trade-date mismatch."
-  },
-  "sector_rotation": {
-    "generate_at_github": true,
-    "benchmark": "SPY",
-    "etfs": [
-      "XLK",
-      "XLC",
-      "XLY",
-      "XLP",
-      "XLE",
-      "XLF",
-      "XLV",
-      "XLI",
-      "XLB",
-      "XLRE",
-      "XLU"
-    ],
-    "method": "RRG_STYLE_PROXY",
-    "tail_sessions": 5,
-    "rule": "Require 2026-09-01 U.S. trade date; do not reuse older sector output."
-  },
-  "taiwan_rotation": {
-    "generate_at_github": true,
-    "benchmark": "^TWII",
-    "rule": "Use latest completed 2026-09-01 Taiwan cash session for local price confirmation; institutional/margin fields remain explicit when unavailable."
-  },
+  "finviz": {"url":"https://finviz.com/map?t=sec_ndx","expected_trade_date":"2026-09-02","path":null,"capture_required_at_github":true,"rule":"Capture fresh at render time; warn on trade-date mismatch."},
+  "sector_rotation": {"generate_at_github":true,"benchmark":"SPY","etfs":["XLK","XLC","XLY","XLP","XLE","XLF","XLV","XLI","XLB","XLRE","XLU"],"method":"RRG_STYLE_PROXY","tail_sessions":5,"rule":"Require 2026-09-02 U.S. trade date; do not reuse older sector output."},
+  "taiwan_rotation": {"generate_at_github":true,"benchmark":"^TWII","rule":"Use latest completed Taiwan cash session available at runtime; institutional/margin fields remain explicit when unavailable and must be date-tagged."},
   "breaking_news": [
-    {
-      "importance": "VERY_HIGH",
-      "published_date": "2026-09-01",
-      "headline": "WTI surges above $90 as U.S.-Iran fighting renews Hormuz supply risk",
-      "summary": "U.S. crude settled at $90.22, up $4.46 or 5.2%, as renewed fighting revived fears of disruption around the Strait of Hormuz.",
-      "market_impact": "Oil shock reinforces inflation risk, keeps Treasury yields elevated and pressures equity valuation multiples.",
-      "taiwan_impact": "Negative for energy-intensive and high-duration growth names; potentially supportive for selected shipping/energy themes.",
-      "source": "Reuters"
-    },
-    {
-      "importance": "VERY_HIGH",
-      "published_date": "2026-09-01",
-      "headline": "Dell beats sharply as AI-server revenue and backlog surge",
-      "summary": "Dell reported Q2 revenue about $46.97B and adjusted EPS $7.04; AI-optimized server revenue reached $16.4B and AI backlog $95B. Full-year revenue outlook was raised to about $192B.",
-      "market_impact": "Strong evidence that enterprise AI infrastructure demand remains robust despite macro-rate pressure.",
-      "taiwan_impact": "Constructive read-through for Taiwan ODM, AI server, networking, PCB, cooling, power and advanced-packaging supply chains.",
-      "source": "WSJ/Barron's"
-    },
-    {
-      "importance": "HIGH",
-      "published_date": "2026-09-01",
-      "headline": "Palo Alto Networks tops expectations on AI-security demand",
-      "summary": "Palo Alto reported adjusted EPS about $1.02 versus $0.98 expected and revenue about $3.41B, up roughly 34% year on year.",
-      "market_impact": "Shows AI-related spending is broadening from compute hardware into enterprise security/software.",
-      "taiwan_impact": "Indirectly supportive for datacenter investment, while hardware read-through depends on capex conversion.",
-      "source": "Barron's"
-    },
-    {
-      "importance": "HIGH",
-      "published_date": "2026-09-01",
-      "headline": "U.S. July job openings rise modestly while hiring remains soft",
-      "summary": "BLS JOLTS showed 7.271M job openings in July, up from revised 7.182M, while hires were around 5.054M.",
-      "market_impact": "Mixed labor picture keeps Friday payrolls central to the Fed path as inflation and oil pressures rise.",
-      "taiwan_impact": "Rate expectations remain a key valuation driver for Taiwan technology shares.",
-      "source": "BLS/Reuters"
-    },
-    {
-      "importance": "HIGH",
-      "published_date": "2026-09-01",
-      "headline": "ISM manufacturing remains in expansion but cools from July",
-      "summary": "August ISM manufacturing PMI was 54.6 versus 55.6 in July and below roughly 55.2 consensus; input-price pressure remained a concern.",
-      "market_impact": "Growth is still positive but not strong enough to offset inflation worries from energy and rates.",
-      "taiwan_impact": "Keeps focus on selective AI/capex demand rather than a broad cyclical reacceleration thesis.",
-      "source": "Reuters/ISM"
-    }
+    {"importance":"VERY_HIGH","published_date":"2026-09-02","headline":"Broadcom beats Q3 but Q4 revenue guide narrowly misses","summary":"Broadcom reported Q3 revenue about $29.59B and adjusted EPS $3.32, both above consensus. Q4 revenue guide was about $34.8B versus roughly $35.03B expected, while Q4 AI chip sales were guided to about $21.7B.","market_impact":"AI custom-silicon demand remains powerful, but valuation sensitivity is high because expectations are extreme.","taiwan_impact":"Mixed-positive for Taiwan ASIC, advanced packaging, substrates, PCB, networking and power supply chains; near-term sentiment may be capped by the slight top-line guide miss.","source":"Reuters"},
+    {"importance":"VERY_HIGH","published_date":"2026-09-02","headline":"Snowflake raises annual product-revenue forecast on AI demand","summary":"Snowflake raised FY2027 product revenue guidance to $6.07B from $5.84B after Q2 product revenue rose 37% to $1.49B; adjusted EPS was $0.62 versus $0.45 expected.","market_impact":"Confirms enterprise AI spending is broadening beyond hardware into cloud data platforms and software.","taiwan_impact":"Indirect positive for hyperscaler/cloud infrastructure demand and data-center buildout.","source":"Reuters"},
+    {"importance":"VERY_HIGH","published_date":"2026-09-02","headline":"HPE lifts annual outlook as AI and networking demand accelerates","summary":"HPE Q3 revenue rose 33.6% to $12.21B and adjusted EPS reached $1.11. FY2026 revenue growth guidance was raised to 34%-37% and adjusted EPS to $3.75-$3.85.","market_impact":"Another strong confirmation that AI server and networking demand remain robust even as supply constraints persist.","taiwan_impact":"Constructive for ODM, server, networking, memory, storage, PCB, cooling and power suppliers.","source":"Reuters"},
+    {"importance":"HIGH","published_date":"2026-09-02","headline":"Wall Street rebounds as oil and yields stabilize","summary":"Dow +0.56%, S&P 500 +0.46%, Nasdaq +0.45%; Russell 2000 outperformed by about 1.1%. Nvidia rose 3.2%.","market_impact":"Risk appetite improved, but bond yields and Iran-related energy risk remain the key macro overhangs.","taiwan_impact":"Supports a tactical rebound in AI/semiconductor shares, but high U.S. yields still argue for selective exposure.","source":"Reuters"},
+    {"importance":"HIGH","published_date":"2026-09-02","headline":"WTI settles at $91.01 as U.S.-Iran strikes threaten supplies","summary":"WTI rose $0.79 to $91.01 and Brent rose $0.98 to $95.63 as the conflict continued to threaten Strait of Hormuz flows.","market_impact":"Keeps inflation risk elevated and limits how far long-bond yields can fall.","taiwan_impact":"Headwind for high-duration growth and energy-intensive industries; potential support for energy/shipping themes.","source":"Reuters"},
+    {"importance":"HIGH","published_date":"2026-09-02","headline":"ADP private payroll growth disappoints","summary":"Reuters reported August private payroll additions were below expectations, reinforcing focus on Friday's official employment report.","market_impact":"Soft labor data offsets some inflation pressure from oil, but the Fed path remains hostage to Friday payrolls.","taiwan_impact":"A softer U.S. labor print can ease yield pressure on growth stocks if oil does not reaccelerate.","source":"Reuters"}
   ],
-  "ai_semiconductor_news": [
-    {
-      "importance": "VERY_HIGH",
-      "published_date": "2026-09-01",
-      "company": "Dell / NVIDIA / TSMC ecosystem",
-      "headline": "Dell's AI server revenue doubles and backlog reaches $95B",
-      "summary": "Dell Q2 AI-optimized server revenue reached $16.4B, with $95B AI backlog and a major full-year revenue outlook increase.",
-      "market_impact": "Confirms continued demand for GPU/accelerator systems, high-speed networking and rack-scale infrastructure.",
-      "taiwan_impact": "Strong read-through for ODM, foundry/packaging, PCB, cooling, power and networking suppliers.",
-      "source": "WSJ/Barron's"
-    },
-    {
-      "importance": "HIGH",
-      "published_date": "2026-09-01",
-      "company": "TSMC / Taiwan semiconductor ecosystem",
-      "headline": "Taiwan emphasizes reliability and global collaboration at SEMICON",
-      "summary": "Taiwan highlighted rule of law and international cooperation as strategic advantages while TSMC continues major U.S. and European expansion.",
-      "market_impact": "Reinforces the strategic role of Taiwan capacity in global semiconductor supply chains.",
-      "taiwan_impact": "Constructive structurally for TSMC and equipment/materials ecosystems, while geopolitical and tariff risk remain.",
-      "source": "Reuters"
-    },
-    {
-      "importance": "HIGH",
-      "published_date": "2026-09-01",
-      "company": "NVIDIA / AI infrastructure",
-      "headline": "AI power and datacenter financing scrutiny rises alongside record buildout",
-      "summary": "Texas froze new grid-connection requests while examining potentially duplicated/speculative datacenter demand; separately SB Energy filed for a U.S. IPO after major AI-related financing and Nvidia investment.",
-      "market_impact": "AI capex remains strong, but power availability, financing quality and duplicate demand are emerging constraints.",
-      "taiwan_impact": "Positive volume signal for hardware, but favors suppliers tied to funded/energized projects rather than speculative capacity requests.",
-      "source": "Reuters"
-    },
-    {
-      "importance": "MEDIUM",
-      "published_date": "2026-09-01",
-      "company": "Apple",
-      "headline": "Apple outperforms in a broad risk-off session",
-      "summary": "Apple closed $325.13, up 2.61%, while major indexes and most semiconductor names fell.",
-      "market_impact": "Shows Mag-7 dispersion remains high and capital is not exiting large-cap technology uniformly.",
-      "taiwan_impact": "Apple supply-chain read-through should be judged on device/order data rather than semiconductor beta alone.",
-      "source": "market data/public reporting"
-    },
-    {
-      "importance": "MEDIUM",
-      "published_date": "2026-09-01",
-      "company": "Microsoft",
-      "headline": "Microsoft slips as higher yields weigh on mega-cap duration",
-      "summary": "Microsoft fell 1.24% to $501.02 despite continued strong Azure/AI monetization expectations.",
-      "market_impact": "Rate sensitivity is offsetting some fundamental AI optimism in software megacaps.",
-      "taiwan_impact": "Datacenter hardware impact remains tied to Microsoft capex and deployment, not the stock's one-day move.",
-      "source": "MarketWatch/Barron's"
-    }
+  "earnings_calendar": [
+    {"date":"2026-09-02","company":"Broadcom","ticker":"AVGO","status":"reported","key_numbers":"Q3 revenue $29.59B; adjusted EPS $3.32; Q4 revenue guide $34.8B; Q4 AI chip sales guide $21.7B","importance":"VERY_HIGH"},
+    {"date":"2026-09-02","company":"Snowflake","ticker":"SNOW","status":"reported","key_numbers":"Q2 product revenue $1.49B (+37% y/y); adjusted EPS $0.62; FY2027 product revenue guide raised to $6.07B","importance":"HIGH"},
+    {"date":"2026-09-02","company":"Hewlett Packard Enterprise","ticker":"HPE","status":"reported","key_numbers":"Q3 revenue $12.21B (+33.6%); adjusted EPS $1.11; FY2026 revenue-growth guide raised to 34%-37%","importance":"HIGH"},
+    {"date":"2026-09-03","company":"Ciena","ticker":"CIEN","status":"upcoming","consensus":"EPS ~$1.72; revenue ~$1.63B","importance":"MEDIUM"},
+    {"date":"2026-09-03","company":"Zscaler","ticker":"ZS","status":"upcoming","consensus":"enterprise security/AI demand focus","importance":"MEDIUM"},
+    {"date":"2026-09-03","company":"Samsara","ticker":"IOT","status":"upcoming","consensus":"connected-operations/software demand focus","importance":"MEDIUM"}
   ],
-  "major_earnings": [
-    {
-      "date": "2026-09-01",
-      "company": "Dell Technologies",
-      "ticker": "DELL",
-      "status": "reported",
-      "headline": "Q2 revenue $46.97B, adjusted EPS $7.04; AI-server revenue $16.4B and backlog $95B",
-      "guidance": "Full-year revenue outlook raised to about $192B; Q3 guide about $49B revenue and $6.50 adjusted EPS.",
-      "source": "WSJ/Barron's"
-    },
-    {
-      "date": "2026-09-01",
-      "company": "Palo Alto Networks",
-      "ticker": "PANW",
-      "status": "reported",
-      "headline": "Q4 adjusted EPS about $1.02 vs $0.98 expected; revenue about $3.41B",
-      "guidance": "AI-security demand remains an important growth driver.",
-      "source": "Barron's"
-    },
-    {
-      "date": "2026-09-02",
-      "company": "Broadcom",
-      "ticker": "AVGO",
-      "status": "upcoming",
-      "headline": "AI networking/custom silicon and FY2027 visibility test",
-      "guidance": "Public consensus roughly revenue $29.4B and adjusted EPS $3.24.",
-      "source": "public consensus/Barron's",
-      "validation_required": [
-        "consensus_crosscheck_at_render"
-      ]
-    },
-    {
-      "date": "2026-09-02",
-      "company": "Snowflake",
-      "ticker": "SNOW",
-      "status": "upcoming",
-      "headline": "Cloud data/AI consumption test",
-      "source": "public earnings calendar"
-    },
-    {
-      "date": "2026-09-02",
-      "company": "HPE",
-      "ticker": "HPE",
-      "status": "upcoming",
-      "headline": "AI systems/networking demand test",
-      "source": "public earnings calendar"
-    }
-  ],
-  "weekly_calendar": [
-    {
-      "date": "2026-09-01",
-      "time_et": "10:00",
-      "event": "JOLTS — July 2026",
-      "importance": "VERY_HIGH",
-      "status": "reported",
-      "actual": "7.271M openings; hires about 5.054M",
-      "source": "BLS/Reuters"
-    },
-    {
-      "date": "2026-09-01",
-      "time_et": "10:00",
-      "event": "ISM Manufacturing — August 2026",
-      "importance": "HIGH",
-      "status": "reported",
-      "actual": "54.6 vs 55.6 prior; below about 55.2 consensus",
-      "source": "Reuters/ISM"
-    },
-    {
-      "date": "2026-09-02",
-      "event": "ADP Employment — August 2026",
-      "importance": "HIGH",
-      "status": "scheduled",
-      "source": "public calendar",
-      "validation_required": [
-        "official_time_crosscheck"
-      ]
-    },
-    {
-      "date": "2026-09-02",
-      "event": "Federal Reserve Beige Book",
-      "importance": "HIGH",
-      "status": "scheduled",
-      "source": "Fed/public calendar",
-      "validation_required": [
-        "official_time_crosscheck"
-      ]
-    },
-    {
-      "date": "2026-09-03",
-      "event": "Initial Jobless Claims / ISM Services — August 2026",
-      "importance": "HIGH",
-      "status": "scheduled",
-      "source": "public calendar",
-      "validation_required": [
-        "official_time_crosscheck"
-      ]
-    },
-    {
-      "date": "2026-09-04",
-      "time_et": "08:30",
-      "event": "U.S. Employment Situation — August 2026",
-      "importance": "VERY_HIGH",
-      "status": "scheduled",
-      "consensus_context": "Public previews cluster around +50K to +65K payroll growth and roughly 4.2% unemployment; validate immediately before release.",
-      "source": "BLS/public previews",
-      "validation_required": [
-        "consensus_crosscheck_at_render"
-      ]
-    }
+  "economic_calendar": [
+    {"date":"2026-09-03","time_et":"08:30","event":"U.S. International Trade in Goods and Services, July 2026","source":"BEA","importance":"HIGH"},
+    {"date":"2026-09-03","time_et":"08:30","event":"Productivity and Costs (revised), Q2 2026","source":"BLS","importance":"HIGH"},
+    {"date":"2026-09-03","time_et":"10:00","event":"ISM Services PMI / services activity","source":"ISM","importance":"VERY_HIGH"},
+    {"date":"2026-09-04","time_et":"08:30","event":"Employment Situation, August 2026 (nonfarm payrolls, unemployment rate, wages)","source":"BLS","importance":"VERY_HIGH"}
   ],
   "narration_points": [
-    "Oil shock returns: WTI settled above $90, up 5.2%, as renewed U.S.-Iran fighting revived Hormuz supply risk.",
-    "Rates remain the main valuation headwind: the U.S. 10-year yield reached 4.798% intraday, VIX rose to 16.09 and all four major U.S. indexes closed lower.",
-    "AI hardware demand remains strong underneath the macro selloff: Dell's AI-server revenue reached $16.4B and backlog $95B, with a large full-year outlook increase.",
-    "Semiconductor tape is selective: NVDA -1.52%, AMD -2.36% and TSM ADR -0.32%, while Apple gained 2.61%.",
-    "Taiwan cash surged on Sep 1, but the after-hours session attributed to Sep 2 reversed sharply; exact official final must be filled only from the same TAIFEX session.",
-    "Today's focus shifts to ADP and the Beige Book plus Broadcom, Snowflake and HPE earnings, followed by Friday payrolls."
+    "美股在連跌後反彈，但不是全面解除風險：10年債仍接近4.8%，WTI仍站上91美元。",
+    "小型股與NVIDIA領漲，顯示風險偏好回溫；但SOX只小漲，半導體仍處於高波動輪動。",
+    "Broadcom財報證明AI客製晶片需求強，但Q4總營收指引略低預期，AI交易進入高標準驗證期。",
+    "Snowflake與HPE同步上調展望，說明AI支出正從GPU/伺服器向資料平台、網路與企業基礎設施擴散。",
+    "台灣供應鏈中期基本面仍受惠，但高利率與能源通膨使追價風險上升。",
+    "今晚先看美國服務業、貿易與生產力，最後由週五非農決定利率與AI估值方向。"
   ],
   "video_storyboard": [
-    {
-      "scene": 1,
-      "title": "今日三大重點",
-      "narrative": "WTI重返90美元、10年債逼近4.8%；美股四大指數全面下跌；但Dell AI Server營收與backlog大增，AI基本面仍強。"
-    },
-    {
-      "scene": 2,
-      "title": "美股四大指數",
-      "narrative": "S&P -0.71%、Nasdaq -1.03%、Dow -0.79%、Russell 2000 -1.23%，高油價與長債殖利率壓縮估值。"
-    },
-    {
-      "scene": 3,
-      "title": "市場雷達",
-      "narrative": "VIX升至16.09；10Y約4.77%、盤中4.798%；DXY接近99.62；黃金跌1.9%；WTI大漲5.2%至90.22。"
-    },
-    {
-      "scene": 4,
-      "title": "Finviz NASDAQ-100 熱力圖",
-      "narrative": "使用GitHub於渲染時重新抓取9/1同交易日熱力圖，呈現大型科技內部分化。"
-    },
-    {
-      "scene": 5,
-      "title": "S&P 500 Sector Rotation",
-      "narrative": "重新計算9/1同交易日RRG-style；油價急升使Energy相對受惠，而高殖利率對Technology與高duration板塊形成壓力。"
-    },
-    {
-      "scene": 6,
-      "title": "台股族群輪動",
-      "narrative": "9/1台股現貨大漲，但9/2歸屬夜盤明顯反轉；AI Server、網通、PCB、散熱、電源仍由Dell強勁需求提供基本面驗證。"
-    },
-    {
-      "scene": 7,
-      "title": "AI / 半導體",
-      "narrative": "Dell AI server Q2營收16.4B美元、backlog 95B美元；NVDA、AMD、TSM ADR在利率壓力下收跌，AI需求與股價估值出現分化。"
-    },
-    {
-      "scene": 8,
-      "title": "今日重大新聞",
-      "narrative": "Dell與PANW財報優於預期；Hormuz風險推升油價；JOLTS職缺略升但招聘偏軟，ISM製造業仍擴張但降溫。"
-    },
-    {
-      "scene": 9,
-      "title": "台指期夜盤 / OI",
-      "narrative": "9/1日盤TX收47,209、+1,232點；外資淨空單降至-78,706口。9/2歸屬夜盤最終官方收盤/成交量/OI尚待同session補驗，不使用舊日資料。"
-    },
-    {
-      "scene": 10,
-      "title": "今日與本週焦點",
-      "narrative": "今天ADP、Fed Beige Book與Broadcom/Snowflake/HPE財報；週五非農決定油價通膨與就業降溫之間，哪一股力量主導Fed預期。"
-    }
+    {"scene":1,"title":"今日三大重點","seconds":14,"points":["美股止跌反彈","WTI仍在91美元附近","Broadcom/Snowflake/HPE共同驗證AI需求"]},
+    {"scene":2,"title":"美股四大指數","seconds":12,"points":["Dow +0.56%","S&P 500 +0.46%","Nasdaq +0.45%","Russell 2000約+1.1%"]},
+    {"scene":3,"title":"市場雷達","seconds":12,"points":["VIX 15.94","DXY 99.59","10Y約4.785%","Gold 4414.6","WTI 91.01"]},
+    {"scene":4,"title":"Finviz NASDAQ-100 Heatmap","seconds":10,"points":["GitHub fresh capture","expected trade date 2026-09-02"]},
+    {"scene":5,"title":"S&P 500 Sector Rotation","seconds":12,"points":["SPY基準11 sector ETF","觀察科技是否重新右上","金融/材料/工業輪動"]},
+    {"scene":6,"title":"台股族群輪動","seconds":12,"points":["AI/半導體中期偏多但高波動","ASIC/網通受Broadcom/HPE驗證","以本地5D/20D與籌碼確認"]},
+    {"scene":7,"title":"AI / 半導體","seconds":14,"points":["NVDA +3.20%","TSM ADR +0.19%","SOX +0.29%","Broadcom Q4 guide略低預期"]},
+    {"scene":8,"title":"重大財報與新聞","seconds":12,"points":["Snowflake上調展望","HPE上調全年展望","AI支出向軟體/網路擴散"]},
+    {"scene":9,"title":"台指期夜盤 / OI","seconds":10,"points":["session_trade_date 2026-09-03","未驗證欄位保持null","06:30僅同session補值"]},
+    {"scene":10,"title":"今日與本週焦點","seconds":12,"points":["9/3貿易/生產力/ISM服務業","9/4非農","利率與AI估值的最終驗證"]}
   ],
   "validation_required": [
-    "Fill SOX exact 2026-09-01 final close/change only from same-date source.",
-    "Fill DXY exact 2026-09-01 change amount only if same-date official/consistent source is available.",
-    "Fill GOLD exact change amount and cross-check 52w range without changing trade date.",
-    "Fill WTI 52w range only from compatible contract/continuous-series source; do not mix incompatible futures contracts.",
-    "Fill TAIFEX session_trade_date 2026-09-02 after-hours final close/low/volume only from that same attributed session.",
-    "Fill TAIFEX 2026-09-01 total OI only from the same regular trade date; never carry previous OI.",
-    "Finviz, sector rotation and Taiwan rotation must be freshly regenerated for their specified trade dates."
+    "TAIFEX session_trade_date 2026-09-03 exact after-hours OHLC/volume must be filled from official same-session data only.",
+    "TAIFEX 2026-09-02 total OI and foreign institutional OI must be filled from same-date official data only.",
+    "WTI 52-week range must be verified on the same front-month/continuous-instrument convention before adding position.",
+    "If GitHub market fetch disagrees on trade_date, canonical non-null values win and DATE_MISMATCH_NO_OVERRIDE must be logged."
   ]
 }
